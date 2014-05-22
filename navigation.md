@@ -14,6 +14,7 @@
 
 [References]()
 
-  * [Metasploit Payload Sizes](msf_payload_sizes.md)
+  * [Metasploit Payload Sizes](references/msf_payload_sizes.md)
+  * [Native Calling Conventions](references/calling_conventions.md)
 
 [gimmick:ThemeChooser](Change theme)
