@@ -6,7 +6,7 @@
 
 [GitHub Projects]()
 
-  * [AdvancedHTTPServer](https://gist.github.com/zeroSteiner/4502576)
+  * [AdvancedHTTPServer](https://github.com/zeroSteiner/AdvancedHTTPServer)
   * [EAPeak](https://github.com/securestate/eapeak/)
   * [King Phisher](https://github.com/securestate/king-phisher/)
   * [Mayhem](https://github.com/zeroSteiner/mayhem/)

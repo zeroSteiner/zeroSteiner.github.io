@@ -1,0 +1,817 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>AdvancedHTTPServer — Light and flexible web framework &mdash; AdvancedHTTPServer 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="AdvancedHTTPServer 0.3 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">AdvancedHTTPServer 0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-AdvancedHTTPServer">
+<span id="advancedhttpserver-light-and-flexible-web-framework"></span><h1><a class="reference internal" href="#module-AdvancedHTTPServer" title="AdvancedHTTPServer: Light and flexible web framework."><tt class="xref py py-mod docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a> &#8212; Light and flexible web framework<a class="headerlink" href="#module-AdvancedHTTPServer" title="Permalink to this headline">¶</a></h1>
+<p>AdvancedHTTPServer is a light weight module that provides a set of classes
+for quickly making HTTP servers for a variety of purposes. It focuses on
+a light and powerful design with an emphasis on portability. It was
+designed after and builds upon Python&#8217;s standard <tt class="xref py py-mod docutils literal"><span class="pre">BaseHTTPServer</span></tt>
+module. AdvancedHTTPServer is released under the BSD license and can be
+freely distributed and packaged with other software.</p>
+<div class="section" id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="AdvancedHTTPServer.SERIALIZER_DRIVERS">
+<tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">SERIALIZER_DRIVERS</tt><a class="headerlink" href="#AdvancedHTTPServer.SERIALIZER_DRIVERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of available drivers for serialization.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="AdvancedHTTPServer.build_server_from_argparser">
+<tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">build_server_from_argparser</tt><big>(</big><em>description=None</em>, <em>ServerClass=None</em>, <em>HandlerClass=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#build_server_from_argparser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.build_server_from_argparser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a server from command line arguments. If a ServerClass or
+HandlerClass is specified, then the object must inherit from the
+corresponding AdvancedHTTPServer base class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>description</strong> (<em>str</em>) &#8211; Description string to be passed to the argument parser.</li>
+<li><strong>ServerClass</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="AdvancedHTTPServer.AdvancedHTTPServer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a>) &#8211; Alternative server class to use.</li>
+<li><strong>HandlerClass</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>) &#8211; Alternative handler class to use.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A configured server instance.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="AdvancedHTTPServer.AdvancedHTTPServer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="AdvancedHTTPServer.build_server_from_config">
+<tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">build_server_from_config</tt><big>(</big><em>config</em>, <em>section_name</em>, <em>ServerClass=None</em>, <em>HandlerClass=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#build_server_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.build_server_from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a server from a provided <tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt>
+instance. If a ServerClass or HandlerClass is specified, then the
+object must inherit from the corresponding AdvancedHTTPServer base
+class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> (<tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt>) &#8211; Configuration to retrieve settings from.</li>
+<li><strong>section_name</strong> (<em>str</em>) &#8211; The section name of the configuration to use.</li>
+<li><strong>ServerClass</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="AdvancedHTTPServer.AdvancedHTTPServer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a>) &#8211; Alternative server class to use.</li>
+<li><strong>HandlerClass</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>) &#8211; Alternative handler class to use.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A configured server instance.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="AdvancedHTTPServer.AdvancedHTTPServer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServer</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the primary server class for the AdvancedHTTPServer framework.
+Custom servers must inherit from this object to be compatible. When
+no <em>address</em> parameter is specified the address &#8216;0.0.0.0&#8217; is used and
+the port is guessed based on if the server is run as root or not and
+SSL is used.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>RequestHandler</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>) &#8211; The request handler class to use.</li>
+<li><strong>address</strong> (<em>tuple</em>) &#8211; The address to bind to in the format (host, port).</li>
+<li><strong>use_threads</strong> (<em>bool</em>) &#8211; Whether to enable the use of a threaded handler.</li>
+<li><strong>ssl_certfile</strong> (<em>str</em>) &#8211; A SSL certificate file to use, setting this enables SSL.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.auth_add_creds">
+<tt class="descname">auth_add_creds</tt><big>(</big><em>username</em>, <em>password</em>, <em>pwtype='plain'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.auth_add_creds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.auth_add_creds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a valid set of credentials to be accepted for authentication.
+Calling this function will automatically enable requiring
+authentication. Passwords can be provided in either plaintext or
+as a hash by specifying the hash type in the <em>pwtype</em> argument.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>username</strong> (<em>str</em>) &#8211; The username of the credentials to be added.</li>
+<li><strong>password</strong> (<em>str</em>) &#8211; The password data of the credentials to be added.</li>
+<li><strong>pwtype</strong> (<em>str</em>) &#8211; The type of the <em>password</em> data, (plain, md5 or sha1).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.auth_delete_creds">
+<tt class="descname">auth_delete_creds</tt><big>(</big><em>username=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.auth_delete_creds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.auth_delete_creds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the credentials for a specific username if specified or all
+stored credentials.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>username</strong> (<em>str</em>) &#8211; The username of the credentials to delete.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.auth_set">
+<tt class="descname">auth_set</tt><big>(</big><em>status</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.auth_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.auth_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable requring authentication on all incoming requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>status</strong> (<em>bool</em>) &#8211; Whether to enable or disable requiring authentication.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.init_rest_api">
+<tt class="descname">init_rest_api</tt><big>(</big><em>rest_api_handler</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.init_rest_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.init_rest_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a REST API Handler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rest_api_handler</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI" title="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRESTAPI</span></tt></a>) &#8211; The handler instance to register with the server.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.rpc_hmac_key">
+<tt class="descname">rpc_hmac_key</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.rpc_hmac_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.rpc_hmac_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>An HMAC key to be used for authenticating RPC requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.serve_files">
+<tt class="descname">serve_files</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.serve_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.serve_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to enable serving files or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.serve_files_list_directories">
+<tt class="descname">serve_files_list_directories</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.serve_files_list_directories"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.serve_files_list_directories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to list the contents of directories. This is only honored
+when <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer.serve_files" title="AdvancedHTTPServer.AdvancedHTTPServer.serve_files"><tt class="xref py py-attr docutils literal"><span class="pre">serve_files</span></tt></a> is True.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.serve_files_root">
+<tt class="descname">serve_files_root</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.serve_files_root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.serve_files_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>The web root to use when serving files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.serve_forever">
+<tt class="descname">serve_forever</tt><big>(</big><em>fork=False</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start handling requests. This method must be called and does not
+return unless the <tt class="xref py py-func docutils literal"><span class="pre">shutdown()</span></tt> method is called from
+another thread.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fork</strong> (<em>bool</em>) &#8211; Whether to fork or not before serving content.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.serve_robots_txt">
+<tt class="descname">serve_robots_txt</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.serve_robots_txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.serve_robots_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to serve a default robots.txt file which denies everything.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.server_version">
+<tt class="descname">server_version</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.server_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.server_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>The server version to be sent to clients in headers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServer.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shutdown the server and stop responding to requests.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRegisterPath">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRegisterPath</tt><big>(</big><em>path</em>, <em>handler=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRegisterPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRegisterPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a path and handler with the global handler map. This can be
+used as a decorator. If no handler is specified then the path and
+function will be registered with all <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>
+instances.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@AdvancedHTTPServerRegisterPath</span><span class="p">(</span><span class="s">&#39;/test&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">handle_test</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRegisterPath.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>path</em>, <em>handler=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRegisterPath.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRegisterPath.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> (<em>str</em>) &#8211; The path regex to register the function to.</li>
+<li><strong>handler</strong> (<em>str</em>) &#8211; A specific <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a> class to register the handler with.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRequestHandler</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the primary http request handler class of the
+AdvancedHTTPServer framework. Custom request handler must inherit
+from this object to be compatible. Instances of this class are created
+automatically. This class will handle standard HTTP GET, HEAD, OPTIONS,
+and POST requests. Handler functions that are not class methods of
+the request handler instance will be passed the instance of the
+request handler as the first argument.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.check_authorization">
+<tt class="descname">check_authorization</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.check_authorization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.check_authorization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for the presence of a basic auth Authorization header and
+if the credentials contained within are valid.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.cookie_get">
+<tt class="descname">cookie_get</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.cookie_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.cookie_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for a cookie value by name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; Name of the cookie value to retreive.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Returns the cookie value if it&#8217;s set or None if it&#8217;s not found.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.cookie_set">
+<tt class="descname">cookie_set</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.cookie_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.cookie_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the value of a client cookie. This can only be called while
+headers can be sent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; The name of the cookie value to set.</li>
+<li><strong>value</strong> (<em>str</em>) &#8211; The value of the cookie to set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.dispatch_handler">
+<tt class="descname">dispatch_handler</tt><big>(</big><em>query=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.dispatch_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.dispatch_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch functions based on the established handler_map. It is
+generally not necessary to override this function and doing so
+will prevent any handlers from being executed. This function is
+executed automatically when requests of either GET, HEAD, or POST
+are received.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>dict</em>) &#8211; Parsed query parameters from the corresponding request.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.guess_mime_type">
+<tt class="descname">guess_mime_type</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.guess_mime_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.guess_mime_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guess an appropriate MIME type based on the extension of the
+provided path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) &#8211; The of the file to analyze.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The guessed MIME type of the default if non are found.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.install_handlers">
+<tt class="descname">install_handlers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.install_handlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.install_handlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is meant to be over ridden by custom classes. It is
+called as part of the __init__ method and provides an opportunity
+for the handler maps to be populated with entries.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_file">
+<tt class="descname">respond_file</tt><big>(</big><em>file_path</em>, <em>attachment=False</em>, <em>query=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.respond_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Respond to the client by serving a file, either directly or as
+an attachment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_path</strong> (<em>str</em>) &#8211; The path to the file to serve, this does not need to be in the web root.</li>
+<li><strong>attachment</strong> (<em>bool</em>) &#8211; Whether to serve the file as a download by setting the Content-Disposition header.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_list_directory">
+<tt class="descname">respond_list_directory</tt><big>(</big><em>dir_path</em>, <em>query=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.respond_list_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_list_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Respond to the client with an HTML page listing the contents of
+the specified directory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dir_path</strong> (<em>str</em>) &#8211; The path of the directory to list the contents of.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_not_found">
+<tt class="descname">respond_not_found</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.respond_not_found"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_not_found" title="Permalink to this definition">¶</a></dt>
+<dd><p>Respond to the client with a default 404 message.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_redirect">
+<tt class="descname">respond_redirect</tt><big>(</big><em>location='/'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.respond_redirect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_redirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Respond to the client with a 301 message and redirect them with
+a Location header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>location</strong> (<em>str</em>) &#8211; The new location to redirect the client to.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_server_error">
+<tt class="descname">respond_server_error</tt><big>(</big><em>status=None</em>, <em>status_line=None</em>, <em>message=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.respond_server_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_server_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle an internal server error, logging a traceback if executed
+within an exception handler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>status</strong> (<em>int</em>) &#8211; The status code to respond to the client with.</li>
+<li><strong>status_line</strong> (<em>str</em>) &#8211; The status message to respond to the client with.</li>
+<li><strong>message</strong> (<em>str</em>) &#8211; The body of the response that is sent to the client.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_unauthorized">
+<tt class="descname">respond_unauthorized</tt><big>(</big><em>request_authentication=False</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.respond_unauthorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.respond_unauthorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Respond to the client that the request is unauthorized.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request_authentication</strong> (<em>bool</em>) &#8211; Whether to request basic authentication information by sending a WWW-Authenticate header.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.stock_handler_respond_not_found">
+<tt class="descname">stock_handler_respond_not_found</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.stock_handler_respond_not_found"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.stock_handler_respond_not_found" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method provides a handler suitable to be used in the handler_map.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.stock_handler_respond_unauthorized">
+<tt class="descname">stock_handler_respond_unauthorized</tt><big>(</big><em>query</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.stock_handler_respond_unauthorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.stock_handler_respond_unauthorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method provides a handler suitable to be used in the handler_map.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRESTAPI</tt><big>(</big><em>api_path='/api/'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a manager REST request handlers. It allows them to be grouped
+together and to use a common base path, &#8216;/api/&#8217; by default. Handler
+functions that are not class methods will be passed the instance of
+the managing class as the first argument.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>api_path='/api/'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>api_path</strong> (<em>str</em>) &#8211; A base path to be prefixed to all handlers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.api_path_regex">
+<tt class="descname">api_path_regex</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.api_path_regex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.api_path_regex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.dispatch_handler">
+<tt class="descname">dispatch_handler</tt><big>(</big><em>request_handler</em>, <em>query</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.dispatch_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.dispatch_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch functions based on the established handler_map. It is
+generally not necessary to override this function and doing so
+will prevent any handlers from being executed. This function is
+executed automatically when requests are received that being with
+the specified api base path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>dict</em>) &#8211; Parsed query parameters from the corresponding request.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.install_handlers">
+<tt class="descname">install_handlers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.install_handlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.install_handlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is meant to be over ridden by custom classes. It is
+called as part of the __init__ method and provides an opportunity
+for the handler maps to be populated with entries.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRPCClient</tt><big>(</big><em>address</em>, <em>use_ssl=False</em>, <em>username=None</em>, <em>password=None</em>, <em>uri_base='/'</em>, <em>hmac_key=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object facilitates communication with remote RPC methods as
+provided by a <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a> instance.
+Once created this object can be called directly, doing so is the same
+as using the call method.</p>
+<p>This object uses locks internally to be thread safe. Only one thread
+can execute a function at a time.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>address</em>, <em>use_ssl=False</em>, <em>username=None</em>, <em>password=None</em>, <em>uri_base='/'</em>, <em>hmac_key=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>address</strong> (<em>tuple</em>) &#8211; The address of the server to conenct to as (host, port).</li>
+<li><strong>use_ssl</strong> (<em>bool</em>) &#8211; Whether to connect with SSL or not.</li>
+<li><strong>username</strong> (<em>str</em>) &#8211; The username to authenticate with.</li>
+<li><strong>password</strong> (<em>str</em>) &#8211; The password to authenticate with.</li>
+<li><strong>uri_base</strong> (<em>str</em>) &#8211; An optional prefix for all methods.</li>
+<li><strong>hmac_key</strong> (<em>str</em>) &#8211; An HMAC key to use for request authentication.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.call">
+<tt class="descname">call</tt><big>(</big><em>method</em>, <em>*options</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Issue a call to the remote end point to execute the specified
+procedure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<em>str</em>) &#8211; The name of the remote procedure to execute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The return value from the remote function.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.decode">
+<tt class="descname">decode</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode data with the configured serializer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.encode">
+<tt class="descname">encode</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode data with the configured serializer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.reconnect">
+<tt class="descname">reconnect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.reconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.reconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reconnect to the remote server.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.set_serializer">
+<tt class="descname">set_serializer</tt><big>(</big><em>serializer_name</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.set_serializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.set_serializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the serializer to use for communication with the server.
+The serializer specified must be valid and in the
+<a class="reference internal" href="#AdvancedHTTPServer.SERIALIZER_DRIVERS" title="AdvancedHTTPServer.SERIALIZER_DRIVERS"><tt class="xref py py-data docutils literal"><span class="pre">SERIALIZER_DRIVERS</span></tt></a> map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>serializer_name</strong> (<em>str</em>) &#8211; The name of the serializer to use.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRPCClientCached</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClientCached"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object builds upon <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient" title="AdvancedHTTPServer.AdvancedHTTPServerRPCClient"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRPCClient</span></tt></a> and
+provides additional methods for cacheing results in memory.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_call">
+<tt class="descname">cache_call</tt><big>(</big><em>method</em>, <em>*options</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClientCached.cache_call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call a remote method and store the result locally. Subsequent
+calls to the same method with the same arguments will return the
+cached result without invoking the remote procedure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<em>str</em>) &#8211; The name of the remote procedure to execute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The return value from the remote function.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_call_refresh">
+<tt class="descname">cache_call_refresh</tt><big>(</big><em>method</em>, <em>*options</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClientCached.cache_call_refresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_call_refresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call a remote method and update the local cache with the result
+if it already existed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>method</strong> (<em>str</em>) &#8211; The name of the remote procedure to execute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The return value from the remote function.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_clear">
+<tt class="descname">cache_clear</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClientCached.cache_clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Purge the local store of all cached function information.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCError">
+<em class="property">exception </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRPCError</tt><big>(</big><em>message</em>, <em>status</em>, <em>remote_exception=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCError" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represents an RPC error either local or remote. Any errors
+in routines executed on the server will raise this error.</p>
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCError.is_remote_exception">
+<tt class="descname">is_remote_exception</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCError.is_remote_exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCError.is_remote_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is true of the represented error resulted from an exception
+on the remote server.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">AdvancedHTTPServer</span></tt> &#8212; Light and flexible web framework</a><ul>
+<li><a class="reference internal" href="#data">Data</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">AdvancedHTTPServer 0.3 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Spencer McIntyre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
