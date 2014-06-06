@@ -300,7 +300,7 @@
 
 <span class="sd">	.. code-block:: python</span>
 
-<span class="sd">	  @AdvancedHTTPServerRegisterPath(&#39;/test&#39;)</span>
+<span class="sd">	  @AdvancedHTTPServerRegisterPath(&#39;^test$&#39;)</span>
 <span class="sd">	  def handle_test(handler, query):</span>
 <span class="sd">	      pass</span>
 <span class="sd">	&quot;&quot;&quot;</span>
@@ -561,10 +561,13 @@
 <div class="viewcode-block" id="AdvancedHTTPServerRequestHandler"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler">[docs]</a><span class="k">class</span> <span class="nc">AdvancedHTTPServerRequestHandler</span><span class="p">(</span><span class="n">BaseHTTPServer</span><span class="o">.</span><span class="n">BaseHTTPRequestHandler</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This is the primary http request handler class of the</span>
-<span class="sd">	AdvancedHTTPServer framework. Custom request handler must inherit</span>
+<span class="sd">	AdvancedHTTPServer framework. Custom request handlers must inherit</span>
 <span class="sd">	from this object to be compatible. Instances of this class are created</span>
 <span class="sd">	automatically. This class will handle standard HTTP GET, HEAD, OPTIONS,</span>
-<span class="sd">	and POST requests. Handler functions that are not class methods of</span>
+<span class="sd">	and POST requests. Callback functions called handlers can be registered</span>
+<span class="sd">	to resource paths using regular expressions in the *handler_map*</span>
+<span class="sd">	attribute for GET HEAD and POST requests and *rpc_handler_map* for RPC</span>
+<span class="sd">	requests. Non-RPC handler functions that are not class methods of</span>
 <span class="sd">	the request handler instance will be passed the instance of the</span>
 <span class="sd">	request handler as the first argument.</span>
 <span class="sd">	&quot;&quot;&quot;</span>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>workshop.requirements &mdash; workshop-python 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="workshop-python 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="workshop" href="../workshop.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">workshop-python 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../workshop.html" accesskey="U">workshop</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for workshop.requirements</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c">#</span>
+<span class="c">#  workshop/requirements.py</span>
+<span class="c">#</span>
+<span class="c">#  Redistribution and use in source and binary forms, with or without</span>
+<span class="c">#  modification, are permitted provided that the following conditions are</span>
+<span class="c">#  met:</span>
+<span class="c">#</span>
+<span class="c">#  * Redistributions of source code must retain the above copyright</span>
+<span class="c">#    notice, this list of conditions and the following disclaimer.</span>
+<span class="c">#  * Redistributions in binary form must reproduce the above</span>
+<span class="c">#    copyright notice, this list of conditions and the following disclaimer</span>
+<span class="c">#    in the documentation and/or other materials provided with the</span>
+<span class="c">#    distribution.</span>
+<span class="c">#  * Neither the name of the project nor the names of its</span>
+<span class="c">#    contributors may be used to endorse or promote products derived from</span>
+<span class="c">#    this software without specific prior written permission.</span>
+<span class="c">#</span>
+<span class="c">#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span>
+<span class="c">#  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span>
+<span class="c">#  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span>
+<span class="c">#  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span>
+<span class="c">#  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span>
+<span class="c">#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span>
+<span class="c">#  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span>
+<span class="c">#  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span>
+<span class="c">#  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<span class="c">#  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="c">#  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="c">#</span>
+
+<span class="kn">import</span> <span class="nn">distutils.version</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+
+<div class="viewcode-block" id="check_requirements"><a class="viewcode-back" href="../../workshop.html#workshop.requirements.check_requirements">[docs]</a><span class="k">def</span> <span class="nf">check_requirements</span><span class="p">(</span><span class="n">requirements_file</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Parse a requirements file for package information to determine if</span>
+<span class="sd">	all requirements are met.</span>
+
+<span class="sd">	:param str requirements_file: The file to parse.</span>
+<span class="sd">	:param ignore: A sequence of packages to ignore.</span>
+<span class="sd">	:type ignore: list, tuple</span>
+<span class="sd">	:return: A list of missing and incompatible packages.</span>
+<span class="sd">	:rtype: list</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">ignore</span> <span class="o">=</span> <span class="p">(</span><span class="n">ignore</span> <span class="ow">or</span> <span class="p">[])</span>
+	<span class="n">not_satisfied</span> <span class="o">=</span> <span class="p">[]</span>
+
+	<span class="n">installed_packages</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">project_name</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">working_set</span><span class="p">))</span>
+	<span class="n">file_h</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">requirements_file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">req_line</span> <span class="ow">in</span> <span class="n">file_h</span><span class="p">:</span>
+		<span class="n">parts</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;^([\w\-]+)(([&lt;&gt;=]=)(\d+(\.\d+)*))?$&#39;</span><span class="p">,</span> <span class="n">req_line</span><span class="p">)</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
+			<span class="k">continue</span>
+		<span class="n">req_pkg</span> <span class="o">=</span> <span class="n">parts</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">req_pkg</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
+			<span class="k">continue</span>
+		<span class="k">if</span> <span class="n">req_pkg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">installed_packages</span><span class="p">:</span>
+			<span class="n">not_satisfied</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req_pkg</span><span class="p">)</span>
+			<span class="k">continue</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+			<span class="k">continue</span>
+		<span class="n">req_version</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">StrictVersion</span><span class="p">(</span><span class="n">parts</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+		<span class="n">installed_pkg</span> <span class="o">=</span> <span class="n">installed_packages</span><span class="p">[</span><span class="n">req_pkg</span><span class="p">]</span>
+		<span class="n">installed_version</span> <span class="o">=</span> <span class="n">distutils</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">StrictVersion</span><span class="p">(</span><span class="n">installed_pkg</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">parts</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;==&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">installed_version</span> <span class="o">==</span> <span class="n">req_version</span><span class="p">):</span>
+			<span class="n">not_satisfied</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req_pkg</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">parts</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;&gt;=&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">installed_version</span> <span class="o">&gt;=</span> <span class="n">req_version</span><span class="p">):</span>
+			<span class="n">not_satisfied</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req_pkg</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">parts</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;&lt;=&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">installed_version</span> <span class="o">&lt;=</span> <span class="n">req_version</span><span class="p">):</span>
+			<span class="n">not_satisfied</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">req_pkg</span><span class="p">)</span>
+	<span class="n">file_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+	<span class="k">return</span> <span class="n">not_satisfied</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">workshop-python 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../workshop.html" >workshop</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Spencer McIntyre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

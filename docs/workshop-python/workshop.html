@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>workshop — Miscellaneous Python classes and functions &mdash; workshop-python 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="workshop-python 0.1 documentation" href="index.html" />
+    <link rel="next" title="2. workshop.configuration — General configuration manager" href="workshop.configuration.html" />
+    <link rel="prev" title="The workshop Package" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="workshop.configuration.html" title="2. workshop.configuration — General configuration manager"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The workshop Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">workshop-python 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-workshop">
+<span id="workshop-miscellaneous-python-classes-and-functions"></span><h1><a class="reference internal" href="#module-workshop" title="workshop: Miscellaneous Python classes and functions"><tt class="xref py py-mod docutils literal"><span class="pre">workshop</span></tt></a> &#8212; Miscellaneous Python classes and functions<a class="headerlink" href="#module-workshop" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="workshop.parse_case_camel_to_snake">
+<tt class="descclassname">workshop.</tt><tt class="descname">parse_case_camel_to_snake</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/workshop.html#parse_case_camel_to_snake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.parse_case_camel_to_snake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a string from CamelCase to snake_case.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> (<em>str</em>) &#8211; The CamelCase string to convert.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The snake_case version of string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.parse_case_snake_to_camel">
+<tt class="descclassname">workshop.</tt><tt class="descname">parse_case_snake_to_camel</tt><big>(</big><em>string</em>, <em>upper_first=True</em><big>)</big><a class="reference internal" href="_modules/workshop.html#parse_case_snake_to_camel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.parse_case_snake_to_camel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a string from snake_case to CamelCase.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>string</strong> (<em>str</em>) &#8211; The snake_case string to convert.</li>
+<li><strong>upper_first</strong> (<em>bool</em>) &#8211; Whether or not to capitalize the first
+character of the string.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The CamelCase version of string.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.parse_server">
+<tt class="descclassname">workshop.</tt><tt class="descname">parse_server</tt><big>(</big><em>server</em>, <em>default_port</em><big>)</big><a class="reference internal" href="_modules/workshop.html#parse_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.parse_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a server string to a tuple suitable for passing to connect, for
+example converting &#8216;www.google.com:443&#8217; to (&#8216;www.google.com&#8217;, 443).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>server</strong> (<em>str</em>) &#8211; The server string to convert.</li>
+<li><strong>default_port</strong> (<em>int</em>) &#8211; The port to use in case one is not specified
+in the server string.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The parsed server information.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.parse_timespan">
+<tt class="descclassname">workshop.</tt><tt class="descname">parse_timespan</tt><big>(</big><em>timedef</em><big>)</big><a class="reference internal" href="_modules/workshop.html#parse_timespan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.parse_timespan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a string timespan definition to seconds, for example converting
+&#8216;1m30s&#8217; to 90.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timedef</strong> (<em>str</em>) &#8211; The timespan definition to convert to seconds.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The converted value in seconds.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.unique">
+<tt class="descclassname">workshop.</tt><tt class="descname">unique</tt><big>(</big><em>seq</em>, <em>key=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#unique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unique a list or tuple and preserve the order.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>seq</strong> (<em>list, tuple</em>) &#8211; The list or tuple to preserve unique items from.</li>
+<li><strong>key</strong> (<em>function, None</em>) &#8211; If key is provided it will be called during the
+comparison process.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.which">
+<tt class="descclassname">workshop.</tt><tt class="descname">which</tt><big>(</big><em>program</em><big>)</big><a class="reference internal" href="_modules/workshop.html#which"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.which" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locate an executable binary&#8217;s full path by its name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>program</strong> (<em>str</em>) &#8211; The executables name.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The full path to the executable.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.xfrange">
+<tt class="descclassname">workshop.</tt><tt class="descname">xfrange</tt><big>(</big><em>start</em>, <em>stop=None</em>, <em>step=1</em><big>)</big><a class="reference internal" href="_modules/workshop.html#xfrange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.xfrange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate through an arithmetic progression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>start</strong> (<em>float, int, long</em>) &#8211; Starting number.</li>
+<li><strong>stop</strong> (<em>float, int, long</em>) &#8211; Stopping number.</li>
+<li><strong>step</strong> (<em>float, int, long</em>) &#8211; Stepping size.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="workshop.AttributeDict">
+<em class="property">class </em><tt class="descclassname">workshop.</tt><tt class="descname">AttributeDict</tt><a class="reference internal" href="_modules/workshop.html#AttributeDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.AttributeDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class allows dictionary keys to be accessed as attributes. For
+example: <tt class="docutils literal"><span class="pre">ad</span> <span class="pre">=</span> <span class="pre">AttributeDict(test=1);</span> <span class="pre">ad['test']</span> <span class="pre">==</span> <span class="pre">ad.test</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="workshop.Cache">
+<em class="property">class </em><tt class="descclassname">workshop.</tt><tt class="descname">Cache</tt><big>(</big><em>timeout</em><big>)</big><a class="reference internal" href="_modules/workshop.html#Cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.Cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class provides a simple to use cache object which can be applied
+as a decorator.</p>
+<dl class="method">
+<dt id="workshop.Cache.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>timeout</em><big>)</big><a class="reference internal" href="_modules/workshop.html#Cache.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.Cache.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout</strong> (<em>int, str</em>) &#8211; The amount of time in seconds that a cached
+result will be considered valid for.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.Cache.cache_clean">
+<tt class="descname">cache_clean</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop.html#Cache.cache_clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.Cache.cache_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove expired items from the cache.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.Cache.cache_clear">
+<tt class="descname">cache_clear</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop.html#Cache.cache_clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.Cache.cache_clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all items from the cache.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="workshop.FileWalker">
+<em class="property">class </em><tt class="descclassname">workshop.</tt><tt class="descname">FileWalker</tt><big>(</big><em>filespath</em>, <em>absolute_path=False</em>, <em>skip_files=False</em>, <em>skip_dirs=False</em>, <em>filter_func=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#FileWalker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.FileWalker" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is used to easily iterate over files in a directory.</p>
+<dl class="method">
+<dt id="workshop.FileWalker.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>filespath</em>, <em>absolute_path=False</em>, <em>skip_files=False</em>, <em>skip_dirs=False</em>, <em>filter_func=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#FileWalker.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.FileWalker.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filespath</strong> (<em>str</em>) &#8211; A path to either a file or a directory. If
+a file is passed then that will be the only file returned
+during the iteration. If a directory is passed, all files
+will be recursively returned during the iteration.</li>
+<li><strong>absolute_path</strong> (<em>bool</em>) &#8211; Whether or not the absolute path or a
+relative path should be returned.</li>
+<li><strong>skip_files</strong> (<em>bool</em>) &#8211; Whether or not to skip files.</li>
+<li><strong>skip_dirs</strong> (<em>bool</em>) &#8211; Whether or not to skip directories.</li>
+<li><strong>filter_func</strong> (<em>function</em>) &#8211; If defined, the filter_func function
+will be called for each file and if the function returns false
+the file will be skipped.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="workshop.SectionConfigParser">
+<em class="property">class </em><tt class="descclassname">workshop.</tt><tt class="descname">SectionConfigParser</tt><big>(</big><em>section_name</em>, <em>config_parser</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proxy access to a section of a ConfigParser object.</p>
+<dl class="method">
+<dt id="workshop.SectionConfigParser.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>section_name</em>, <em>config_parser</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>section_name</strong> (<em>str</em>) &#8211; Name of the section to proxy access for.</li>
+<li><strong>config_parser</strong> &#8211; ConfigParser object to proxy access for.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.get">
+<tt class="descname">get</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve <em>option</em> from the config, returning <em>default</em> if it
+is not present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>option</strong> (<em>str</em>) &#8211; The name of the value to return.</li>
+<li><strong>default</strong> &#8211; Default value to return if the option does not exist.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.getboolean">
+<tt class="descname">getboolean</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.getboolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.getboolean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve <em>option</em> from the config, returning <em>default</em> if it
+is not present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>option</strong> (<em>str</em>) &#8211; The name of the value to return.</li>
+<li><strong>default</strong> &#8211; Default value to return if the option does not exist.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.getfloat">
+<tt class="descname">getfloat</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.getfloat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.getfloat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve <em>option</em> from the config, returning <em>default</em> if it
+is not present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>option</strong> (<em>str</em>) &#8211; The name of the value to return.</li>
+<li><strong>default</strong> &#8211; Default value to return if the option does not exist.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.getint">
+<tt class="descname">getint</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.getint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.getint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve <em>option</em> from the config, returning <em>default</em> if it
+is not present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>option</strong> (<em>str</em>) &#8211; The name of the value to return.</li>
+<li><strong>default</strong> &#8211; Default value to return if the option does not exist.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.has_option">
+<tt class="descname">has_option</tt><big>(</big><em>option</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.has_option"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.has_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that <em>option</em> exists in the configuration file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>option</strong> (<em>str</em>) &#8211; The name of the option to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.items">
+<tt class="descname">items</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all options and their values in the form of a list of tuples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of all values and options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.options">
+<tt class="descname">options</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all options that are present in the section of the
+configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of all set options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.SectionConfigParser.set">
+<tt class="descname">set</tt><big>(</big><em>option</em>, <em>value</em><big>)</big><a class="reference internal" href="_modules/workshop.html#SectionConfigParser.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.SectionConfigParser.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set an option to an arbitrary value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>option</strong> (<em>str</em>) &#8211; The name of the option to set.</li>
+<li><strong>value</strong> &#8211; The value to set the option to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">workshop</span></tt> &#8212; Miscellaneous Python classes and functions</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">The workshop Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="workshop.configuration.html"
+                        title="next chapter">2. <tt class="docutils literal"><span class="pre">workshop.configuration</span></tt> &#8212; General configuration manager</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/workshop.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="workshop.configuration.html" title="2. workshop.configuration — General configuration manager"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The workshop Package"
+             >previous</a> |</li>
+        <li><a href="index.html">workshop-python 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Spencer McIntyre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

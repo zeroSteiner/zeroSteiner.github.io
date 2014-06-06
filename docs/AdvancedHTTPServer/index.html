@@ -45,7 +45,7 @@
           <div class="body">
             
   <div class="section" id="module-AdvancedHTTPServer">
-<span id="advancedhttpserver-light-and-flexible-web-framework"></span><h1><a class="reference internal" href="#module-AdvancedHTTPServer" title="AdvancedHTTPServer: Light and flexible web framework."><tt class="xref py py-mod docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a> &#8212; Light and flexible web framework<a class="headerlink" href="#module-AdvancedHTTPServer" title="Permalink to this headline">¶</a></h1>
+<span id="advancedhttpserver-light-and-flexible-web-framework"></span><h1><a class="reference internal" href="#module-AdvancedHTTPServer" title="AdvancedHTTPServer: Light and flexible web framework"><tt class="xref py py-mod docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a> &#8212; Light and flexible web framework<a class="headerlink" href="#module-AdvancedHTTPServer" title="Permalink to this headline">¶</a></h1>
 <p>AdvancedHTTPServer is a light weight module that provides a set of classes
 for quickly making HTTP servers for a variety of purposes. It focuses on
 a light and powerful design with an emphasis on portability. It was
@@ -330,7 +330,7 @@ another thread.</p>
 used as a decorator. If no handler is specified then the path and
 function will be registered with all <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>
 instances.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@AdvancedHTTPServerRegisterPath</span><span class="p">(</span><span class="s">&#39;/test&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@AdvancedHTTPServerRegisterPath</span><span class="p">(</span><span class="s">&#39;^test$&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">handle_test</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
     <span class="k">pass</span>
 </pre></div>
@@ -358,10 +358,13 @@ instances.</p>
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler">
 <em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRequestHandler</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the primary http request handler class of the
-AdvancedHTTPServer framework. Custom request handler must inherit
+AdvancedHTTPServer framework. Custom request handlers must inherit
 from this object to be compatible. Instances of this class are created
 automatically. This class will handle standard HTTP GET, HEAD, OPTIONS,
-and POST requests. Handler functions that are not class methods of
+and POST requests. Callback functions called handlers can be registered
+to resource paths using regular expressions in the <em>handler_map</em>
+attribute for GET HEAD and POST requests and <em>rpc_handler_map</em> for RPC
+requests. Non-RPC handler functions that are not class methods of
 the request handler instance will be passed the instance of the
 request handler as the first argument.</p>
 <dl class="method">
