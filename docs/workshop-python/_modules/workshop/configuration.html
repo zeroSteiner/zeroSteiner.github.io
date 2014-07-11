@@ -109,8 +109,11 @@
 <span class="sd">	&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Configuration.__init__"><a class="viewcode-back" href="../../workshop.configuration.html#workshop.configuration.Configuration.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration_file</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">		:param str configuration_file: The configuration file to parse.</span>
-<span class="sd">		:param str prefix: String to be prefixed to all option names.</span>
+<span class="sd">		@type configuration_file: string</span>
+<span class="sd">		@param configuration_file: The configuration file to parse.</span>
+
+<span class="sd">		@type prefix: string</span>
+<span class="sd">		@param prefix: String to be prefixed to all option names.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">seperator</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
@@ -134,11 +137,7 @@
 
 <div class="viewcode-block" id="Configuration.get_storage"><a class="viewcode-back" href="../../workshop.configuration.html#workshop.configuration.Configuration.get_storage">[docs]</a>	<span class="k">def</span> <span class="nf">get_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">		Get a copy of the internal configuration. Changes made to the returned</span>
-<span class="sd">		copy will not affect this object.</span>
-
-<span class="sd">		:return: A copy of the internal storage object.</span>
-<span class="sd">		:rtype: dict</span>
+<span class="sd">		Get a copy of the internal configuration.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">)</span>
 </div>
@@ -146,7 +145,8 @@
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Retrieve the value of an option.</span>
 
-<span class="sd">		:param str item_name: The name of the option to retreive.</span>
+<span class="sd">		@type item_name: string</span>
+<span class="sd">		@param item_name: The name of the option to retreive.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span>
 			<span class="n">item_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">seperator</span> <span class="o">+</span> <span class="n">item_name</span>
@@ -160,9 +160,8 @@
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Check that an option exists.</span>
 
-<span class="sd">		:param str option_name: The name of the option to check.</span>
-<span class="sd">		:return: True of the option exists in the configuration.</span>
-<span class="sd">		:rtype: bool</span>
+<span class="sd">		@type option_name: string</span>
+<span class="sd">		@param option_name: The name of the option to check.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span>
 			<span class="n">item_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">seperator</span> <span class="o">+</span> <span class="n">item_name</span>
@@ -178,9 +177,8 @@
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Checks that an option exists and that it contains sub options.</span>
 
-<span class="sd">		:param str section_name: The name of the section to check.</span>
-<span class="sd">		:return: True if the section exists.</span>
-<span class="sd">		:rtype: dict</span>
+<span class="sd">		@type section_name: string</span>
+<span class="sd">		@param section_name: The name of the section to check.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_option</span><span class="p">(</span><span class="n">section_name</span><span class="p">):</span>
 			<span class="k">return</span> <span class="bp">False</span>
@@ -190,8 +188,11 @@
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Sets the value of an option in the configuration.</span>
 
-<span class="sd">		:param str item_name: The name of the option to set.</span>
-<span class="sd">		:param item_value: The value of the option to set.</span>
+<span class="sd">		@type item_name: string</span>
+<span class="sd">		@param item_name: The name of the option to set.</span>
+
+<span class="sd">		@type item_value: *</span>
+<span class="sd">		@param item_value: The value of the option to set.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span>
 			<span class="n">item_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">seperator</span> <span class="o">+</span> <span class="n">item_name</span>
@@ -213,7 +214,7 @@
 		<span class="n">file_h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_serializer</span><span class="p">(</span><span class="s">&#39;dumps&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">))</span>
 		<span class="n">file_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div></div>
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../workshop.html#workshop.configuration.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 	<span class="kn">import</span> <span class="nn">argparse</span>
 
 	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">&#39;Parse a configuration file&#39;</span><span class="p">,</span> <span class="n">conflict_handler</span><span class="o">=</span><span class="s">&#39;resolve&#39;</span><span class="p">)</span>
@@ -226,7 +227,7 @@
 		<span class="k">return</span> <span class="mi">1</span>
 	<span class="k">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">arguments</span><span class="o">.</span><span class="n">option</span><span class="p">))</span>
 	<span class="k">return</span> <span class="mi">0</span>
-</div>
+
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
 	<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>

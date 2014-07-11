@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>mayhem.proc — mayhem base classes &mdash; mayhem 0.1.0a0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0a0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="mayhem 0.1.0a0 documentation" href="index.html" />
+    <link rel="next" title="mayhem.proc.linux — Linux manipulation classes" href="mayhem.proc.linux.html" />
+    <link rel="prev" title="mayhem — Process manipulation toolkit" href="mayhem.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mayhem.proc.linux.html" title="mayhem.proc.linux — Linux manipulation classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mayhem.html" title="mayhem — Process manipulation toolkit"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">mayhem 0.1.0a0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-mayhem.proc">
+<span id="mayhem-proc-mayhem-base-classes"></span><h1><a class="reference internal" href="#module-mayhem.proc" title="mayhem.proc: mayhem base classes"><tt class="xref py py-mod docutils literal"><span class="pre">mayhem.proc</span></tt></a> &#8212; mayhem base classes<a class="headerlink" href="#module-mayhem.proc" title="Permalink to this headline">¶</a></h1>
+<p>This module contains base classes for OS specific objects to inherit from.</p>
+<div class="section" id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mayhem.proc.Hook">
+<em class="property">class </em><tt class="descclassname">mayhem.proc.</tt><tt class="descname">Hook</tt><big>(</big><em>hook_type</em>, <em>hook_location</em>, <em>old_address</em>, <em>new_address</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object describes a hook which has been installed to modify the
+behavior of native code. This is generally used for hijacking functions
+to force them to execute different instructions when they are called.
+The <em>Hook</em> specifically referes to the data which has been modified
+to alter the flow of execution. This is generally a modified funciton
+pointer or an assembly stub which redirects code to the <em>new_handler</em>.</p>
+<dl class="method">
+<dt id="mayhem.proc.Hook.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>hook_type</em>, <em>hook_location</em>, <em>old_address</em>, <em>new_address</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Hook.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Hook.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>hook_type</strong> (<em>str</em>) &#8211; The type of hook (iat or eat).</li>
+<li><strong>hook_location</strong> (<em>int</em>) &#8211; The address of where the hook has been installed.</li>
+<li><strong>old_address</strong> (<em>int</em>) &#8211; The original address of the hooked function.</li>
+<li><strong>new_address</strong> (<em>int</em>) &#8211; The new modified address of the hooked function.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mayhem.proc.MemoryRegion">
+<em class="property">class </em><tt class="descclassname">mayhem.proc.</tt><tt class="descname">MemoryRegion</tt><big>(</big><em>addr_low</em>, <em>addr_high</em>, <em>perms</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion" title="Permalink to this definition">¶</a></dt>
+<dd><p>This describes a memory region in a platform independant way. Permissions
+are described with a string using &#8216;rwx&#8217; for full read, write and execute
+permissions and substituting &#8216;-&#8216; for missing permissions. For example
+a page with only read and execute permissions would have permissions
+of &#8216;r-x&#8217;.</p>
+<dl class="method">
+<dt id="mayhem.proc.MemoryRegion.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>addr_low</em>, <em>addr_high</em>, <em>perms</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>addr_low</strong> (<em>int</em>) &#8211; The address of where this memory region starts.</li>
+<li><strong>addr_high</strong> (<em>int</em>) &#8211; The address of where this memory region ends.</li>
+<li><strong>perms</strong> (<em>str</em>) &#8211; The permissions that this memory region has.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.MemoryRegion.is_executable">
+<tt class="descname">is_executable</tt><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.is_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.is_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the memory region contains the execute permission.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.MemoryRegion.is_private">
+<tt class="descname">is_private</tt><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.is_private"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.is_private" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the memory region is marked as private.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.MemoryRegion.is_readable">
+<tt class="descname">is_readable</tt><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.is_readable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.is_readable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the memory region contains the read permission.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.MemoryRegion.is_shared">
+<tt class="descname">is_shared</tt><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.is_shared"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.is_shared" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the memory region is marked as shared.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.MemoryRegion.is_writeable">
+<tt class="descname">is_writeable</tt><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.is_writeable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.is_writeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the memory region contains the write permission.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.MemoryRegion.size">
+<tt class="descname">size</tt><a class="reference internal" href="_modules/mayhem/proc.html#MemoryRegion.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.MemoryRegion.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of the memory region.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mayhem.proc.Process">
+<em class="property">class </em><tt class="descclassname">mayhem.proc.</tt><tt class="descname">Process</tt><a class="reference internal" href="_modules/mayhem/proc.html#Process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="mayhem.proc.Process.allocate">
+<tt class="descname">allocate</tt><big>(</big><em>size=1024</em>, <em>address=None</em>, <em>permissions=None</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.allocate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.allocate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allocate memory in the attached process. If <em>permissions</em> is not
+specified it will be the platform specific version of read, write
+and execute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>int</em>) &#8211; The size of the space to allocate.</li>
+<li><strong>address</strong> (<em>int</em>) &#8211; The preferred address to allocate space at.</li>
+<li><strong>permissions</strong> (<em>str</em>) &#8211; The permissions to set in the newly allocated space.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mayhem.proc.Process.arch">
+<tt class="descname">arch</tt><a class="reference internal" href="_modules/mayhem/proc.html#Process.arch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.arch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The architecture of the process.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the handle to the process and perform any necessary clean
+up operations. No further calls should be made to the object after
+this function is called.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.free">
+<tt class="descname">free</tt><big>(</big><em>address</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.free"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.free" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unallocate the memory at <em>address</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>int</em>) &#8211; The address to unallocate.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.get_proc_attribute">
+<tt class="descname">get_proc_attribute</tt><big>(</big><em>attribute</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.get_proc_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.get_proc_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look up a platform specific attribute of the process. Valid values
+for <em>attribute</em> will be different depending on the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attribute</strong> (<em>str</em>) &#8211; The attribute to look up.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.install_hook">
+<tt class="descname">install_hook</tt><big>(</big><em>mod_name</em>, <em>new_address</em>, <em>name=None</em>, <em>ordinal=None</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.install_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.install_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Install a hook to redirect execution from the specified function
+to <em>new_address</em>. Different platform implemenations of this function
+may not support both the <em>name</em> and <em>ordinal</em> parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mod_name</strong> (<em>str</em>) &#8211; The module where the target function to hook resides.</li>
+<li><strong>new_address</strong> (<em>int</em>) &#8211; The address of the new code to be executed.</li>
+<li><strong>name</strong> (<em>str</em>) &#8211; The name of the function to hook.</li>
+<li><strong>ordinal</strong> (<em>int</em>) &#8211; The ordinal of the function to hook.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.join_thread">
+<tt class="descname">join_thread</tt><big>(</big><em>thread_id</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.join_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.join_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for the thread described in <em>thread_id</em> to finish execution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thread_id</strong> (<em>int</em>) &#8211; The ID of the thread to wait for.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.kill">
+<tt class="descname">kill</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.kill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.kill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kill the process which is currently being manipulated.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.load_library">
+<tt class="descname">load_library</tt><big>(</big><em>libpath</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.load_library"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.load_library" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the library specified by <em>libpath</em> into the address space
+of the attached process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>libpath</strong> (<em>str</em>) &#8211; The path to the library to load.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.protect">
+<tt class="descname">protect</tt><big>(</big><em>address</em>, <em>permissions=None</em>, <em>size=1024</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.protect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.protect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the access permissions to the memory residing at <em>address</em>.
+If <em>permissions</em> is not specified it will be the platform specific
+version of read, write and execute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>address</strong> (<em>int</em>) &#8211; The address to change the permissions of.</li>
+<li><strong>permissions</strong> (<em>str</em>) &#8211; The permissions to set for <em>address</em>.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The size of the space starting at <em>address</em> to change the permissions of.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.read_memory">
+<tt class="descname">read_memory</tt><big>(</big><em>address</em>, <em>size=1024</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.read_memory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.read_memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the contents of memory at <em>address</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>address</strong> (<em>int</em>) &#8211; The location from which to read memory.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; The number of bytes to read.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The contents of memory at <em>address</em>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.read_memory_string">
+<tt class="descname">read_memory_string</tt><big>(</big><em>address</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.read_memory_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.read_memory_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read bytes from <em>address</em> until a NULL termination character is
+encountered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>int</em>) &#8211; The address to start reading from.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The string residing at <em>address</em>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.read_region">
+<tt class="descname">read_region</tt><big>(</big><em>region</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.read_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.read_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an entire region from memory. If <em>region</em> is a
+<a class="reference internal" href="#mayhem.proc.MemoryRegion" title="mayhem.proc.MemoryRegion"><tt class="xref py py-class docutils literal"><span class="pre">MemoryRegion</span></tt></a> instance, it is returned. If <em>region</em>
+is an int, it must be the starting address of a memory region in
+the <tt class="xref py py-attr docutils literal"><span class="pre">maps</span></tt> attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>region</strong> (int, <a class="reference internal" href="#mayhem.proc.MemoryRegion" title="mayhem.proc.MemoryRegion"><tt class="xref py py-class docutils literal"><span class="pre">MemoryRegion</span></tt></a>) &#8211; The region to read from.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The contents of the memory region.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.start_thread">
+<tt class="descname">start_thread</tt><big>(</big><em>address</em>, <em>targ=None</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.start_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.start_thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute <em>address</em> in the context of a new thread.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>address</strong> (<em>int</em>) &#8211; The entry point of the thread.</li>
+<li><strong>targ</strong> &#8211; The arguments to supply for the thread.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A platform specific thread identifier.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mayhem.proc.Process.write_memory">
+<tt class="descname">write_memory</tt><big>(</big><em>address</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#Process.write_memory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.Process.write_memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write arbitrary data to the processes memory.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>address</strong> (<em>int</em>) &#8211; The location to start writing to.</li>
+<li><strong>data</strong> (<em>str</em>) &#8211; The data to write into memory.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="mayhem.proc.ProcessError">
+<em class="property">exception </em><tt class="descclassname">mayhem.proc.</tt><tt class="descname">ProcessError</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="_modules/mayhem/proc.html#ProcessError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mayhem.proc.ProcessError" title="Permalink to this definition">¶</a></dt>
+<dd><p>This base exception describes process related errors and are raised
+by <a class="reference internal" href="#mayhem.proc.Process" title="mayhem.proc.Process"><tt class="xref py py-class docutils literal"><span class="pre">mayhem.proc.Process</span></tt></a> classes.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">mayhem.proc</span></tt> &#8212; mayhem base classes</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mayhem.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">mayhem</span></tt> &#8212; Process manipulation toolkit</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mayhem.proc.linux.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">mayhem.proc.linux</span></tt> &#8212; Linux manipulation classes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/mayhem.proc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mayhem.proc.linux.html" title="mayhem.proc.linux — Linux manipulation classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mayhem.html" title="mayhem — Process manipulation toolkit"
+             >previous</a> |</li>
+        <li><a href="index.html">mayhem 0.1.0a0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Spencer McIntyre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

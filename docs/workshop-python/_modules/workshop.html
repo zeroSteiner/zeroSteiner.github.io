@@ -62,7 +62,7 @@
 <span class="c">#    copyright notice, this list of conditions and the following disclaimer</span>
 <span class="c">#    in the documentation and/or other materials provided with the</span>
 <span class="c">#    distribution.</span>
-<span class="c">#  * Neither the name of the  nor the names of its</span>
+<span class="c">#  * Neither the name of the project nor the names of its</span>
 <span class="c">#    contributors may be used to endorse or promote products derived from</span>
 <span class="c">#    this software without specific prior written permission.</span>
 <span class="c">#</span>
@@ -308,6 +308,26 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">config_parser</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">section_name</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 </div></div>
+<span class="k">def</span> <span class="nf">grep</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Search a file and return a list of all lines that match a regular expression.</span>
+
+<span class="sd">	:param str expression: The regex to search for.</span>
+<span class="sd">	:param file: The file to search in.</span>
+<span class="sd">	:type file: str, file</span>
+<span class="sd">	:param int flags: The regex flags to use when searching.</span>
+<span class="sd">	:param bool invert: Select non matching lines instead.</span>
+<span class="sd">	:return: All the matching lines.</span>
+<span class="sd">	:rtype: list</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+		<span class="nb">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+	<span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">file</span><span class="p">:</span>
+		<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">))</span> <span class="o">^</span> <span class="n">invert</span><span class="p">:</span>
+			<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">lines</span>
+
 <div class="viewcode-block" id="parse_case_camel_to_snake"><a class="viewcode-back" href="../workshop.html#workshop.parse_case_camel_to_snake">[docs]</a><span class="k">def</span> <span class="nf">parse_case_camel_to_snake</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Convert a string from CamelCase to snake_case.</span>
@@ -433,7 +453,7 @@
 	<span class="n">is_exe</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fpath</span><span class="p">:</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">))</span>
 	<span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
 		<span class="k">return</span> <span class="n">program</span>
-	<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&quot;PATH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>
 		<span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)</span>
 		<span class="n">exe_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">program</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">exe_file</span><span class="p">):</span>

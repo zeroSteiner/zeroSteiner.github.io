@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2. workshop.configuration — General configuration manager &mdash; workshop-python 0.1 documentation</title>
+    <title>workshop.configuration — General configuration manager &mdash; workshop-python 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="workshop-python 0.1 documentation" href="index.html" />
-    <link rel="next" title="3. workshop.job — Python job manager" href="workshop.job.html" />
-    <link rel="prev" title="1. workshop — Miscellaneous Python classes and functions" href="workshop.html" /> 
+    <link rel="next" title="workshop.job — Python job manager" href="workshop.job.html" />
+    <link rel="prev" title="workshop — Miscellaneous Python classes and functions" href="workshop.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="workshop.job.html" title="3. workshop.job — Python job manager"
+          <a href="workshop.job.html" title="workshop.job — Python job manager"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="workshop.html" title="1. workshop — Miscellaneous Python classes and functions"
+          <a href="workshop.html" title="workshop — Miscellaneous Python classes and functions"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">workshop-python 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -53,9 +53,9 @@
           <div class="body">
             
   <div class="section" id="module-workshop.configuration">
-<span id="workshop-configuration-general-configuration-manager"></span><h1>2. <a class="reference internal" href="#module-workshop.configuration" title="workshop.configuration: General configuration manager"><tt class="xref py py-mod docutils literal"><span class="pre">workshop.configuration</span></tt></a> &#8212; General configuration manager<a class="headerlink" href="#module-workshop.configuration" title="Permalink to this headline">¶</a></h1>
+<span id="workshop-configuration-general-configuration-manager"></span><h1><a class="reference internal" href="#module-workshop.configuration" title="workshop.configuration: General configuration manager"><tt class="xref py py-mod docutils literal"><span class="pre">workshop.configuration</span></tt></a> &#8212; General configuration manager<a class="headerlink" href="#module-workshop.configuration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="classes">
-<h2>2.1. Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="workshop.configuration.Configuration">
 <em class="property">class </em><tt class="descclassname">workshop.configuration.</tt><tt class="descname">Configuration</tt><big>(</big><em>configuration_file</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration" title="Permalink to this definition">¶</a></dt>
@@ -64,18 +64,10 @@ in multiple formats.</p>
 <dl class="method">
 <dt id="workshop.configuration.Configuration.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>configuration_file</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>configuration_file</strong> (<em>str</em>) &#8211; The configuration file to parse.</li>
-<li><strong>prefix</strong> (<em>str</em>) &#8211; String to be prefixed to all option names.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dd><p>&#64;type configuration_file: string
+&#64;param configuration_file: The configuration file to parse.</p>
+<p>&#64;type prefix: string
+&#64;param prefix: String to be prefixed to all option names.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -88,67 +80,30 @@ in multiple formats.</p>
 <dt id="workshop.configuration.Configuration.get">
 <tt class="descname">get</tt><big>(</big><em>item_name</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the value of an option.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item_name</strong> (<em>str</em>) &#8211; The name of the option to retreive.</td>
-</tr>
-</tbody>
-</table>
+<p>&#64;type item_name: string
+&#64;param item_name: The name of the option to retreive.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="workshop.configuration.Configuration.get_storage">
 <tt class="descname">get_storage</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.get_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.get_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a copy of the internal configuration. Changes made to the returned
-copy will not affect this object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A copy of the internal storage object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
+<dd><p>Get a copy of the internal configuration.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="workshop.configuration.Configuration.has_option">
 <tt class="descname">has_option</tt><big>(</big><em>option_name</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.has_option"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.has_option" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check that an option exists.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>option_name</strong> (<em>str</em>) &#8211; The name of the option to check.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True of the option exists in the configuration.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<p>&#64;type option_name: string
+&#64;param option_name: The name of the option to check.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="workshop.configuration.Configuration.has_section">
 <tt class="descname">has_section</tt><big>(</big><em>section_name</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.has_section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.has_section" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that an option exists and that it contains sub options.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>section_name</strong> (<em>str</em>) &#8211; The name of the section to check.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the section exists.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
+<p>&#64;type section_name: string
+&#64;param section_name: The name of the section to check.</p>
 </dd></dl>
 
 <dl class="method">
@@ -161,18 +116,10 @@ copy will not affect this object.</p>
 <dt id="workshop.configuration.Configuration.set">
 <tt class="descname">set</tt><big>(</big><em>item_name</em>, <em>item_value</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the value of an option in the configuration.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>item_name</strong> (<em>str</em>) &#8211; The name of the option to set.</li>
-<li><strong>item_value</strong> &#8211; The value of the option to set.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<p>&#64;type item_name: string
+&#64;param item_name: The name of the option to set.</p>
+<p>&#64;type item_value: *
+&#64;param item_value: The value of the option to set.</p>
 </dd></dl>
 
 </dd></dl>
@@ -188,18 +135,18 @@ copy will not affect this object.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2. <tt class="docutils literal"><span class="pre">workshop.configuration</span></tt> &#8212; General configuration manager</a><ul>
-<li><a class="reference internal" href="#classes">2.1. Classes</a></li>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">workshop.configuration</span></tt> &#8212; General configuration manager</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="workshop.html"
-                        title="previous chapter">1. <tt class="docutils literal"><span class="pre">workshop</span></tt> &#8212; Miscellaneous Python classes and functions</a></p>
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">workshop</span></tt> &#8212; Miscellaneous Python classes and functions</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="workshop.job.html"
-                        title="next chapter">3. <tt class="docutils literal"><span class="pre">workshop.job</span></tt> &#8212; Python job manager</a></p>
+                        title="next chapter"><tt class="docutils literal"><span class="pre">workshop.job</span></tt> &#8212; Python job manager</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/workshop.configuration.txt"
@@ -232,10 +179,10 @@ copy will not affect this object.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="workshop.job.html" title="3. workshop.job — Python job manager"
+          <a href="workshop.job.html" title="workshop.job — Python job manager"
              >next</a> |</li>
         <li class="right" >
-          <a href="workshop.html" title="1. workshop — Miscellaneous Python classes and functions"
+          <a href="workshop.html" title="workshop — Miscellaneous Python classes and functions"
              >previous</a> |</li>
         <li><a href="index.html">workshop-python 0.1 documentation</a> &raquo;</li> 
       </ul>

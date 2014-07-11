@@ -15,8 +15,7 @@ Data
 ----
 
 .. data:: SERIALIZER_DRIVERS
-
-   Dictionary of available drivers for serialization.
+   :annotation:
 
 Functions
 ---------
@@ -24,6 +23,8 @@ Functions
 .. autofunction:: AdvancedHTTPServer.build_server_from_argparser
 
 .. autofunction:: AdvancedHTTPServer.build_server_from_config
+
+.. autofunction:: AdvancedHTTPServer.random_string
 
 Classes
 -------
@@ -54,6 +55,9 @@ Classes
 .. autoclass:: AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached
    :members:
    :undoc-members:
+
+.. autoclass:: AdvancedHTTPServer.AdvancedHTTPServerTestCase
+   :members:
 
 Exceptions
 ----------
