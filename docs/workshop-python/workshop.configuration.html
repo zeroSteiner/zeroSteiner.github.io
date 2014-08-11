@@ -64,10 +64,18 @@ in multiple formats.</p>
 <dl class="method">
 <dt id="workshop.configuration.Configuration.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>configuration_file</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;type configuration_file: string
-&#64;param configuration_file: The configuration file to parse.</p>
-<p>&#64;type prefix: string
-&#64;param prefix: String to be prefixed to all option names.</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>configuration_file</strong> (<em>str</em>) &#8211; The configuration file to parse.</li>
+<li><strong>prefix</strong> (<em>str</em>) &#8211; String to be prefixed to all option names.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -80,30 +88,69 @@ in multiple formats.</p>
 <dt id="workshop.configuration.Configuration.get">
 <tt class="descname">get</tt><big>(</big><em>item_name</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the value of an option.</p>
-<p>&#64;type item_name: string
-&#64;param item_name: The name of the option to retreive.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item_name</strong> (<em>str</em>) &#8211; The name of the option to retreive.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of <em>item_name</em> in the configuration.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="workshop.configuration.Configuration.get_storage">
 <tt class="descname">get_storage</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.get_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.get_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a copy of the internal configuration.</p>
+<dd><p>Get a copy of the internal configuration. Changes made to the returned
+copy will not affect this object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A copy of the internal storage object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="workshop.configuration.Configuration.has_option">
 <tt class="descname">has_option</tt><big>(</big><em>option_name</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.has_option"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.has_option" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check that an option exists.</p>
-<p>&#64;type option_name: string
-&#64;param option_name: The name of the option to check.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>option_name</strong> (<em>str</em>) &#8211; The name of the option to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True of the option exists in the configuration.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="workshop.configuration.Configuration.has_section">
 <tt class="descname">has_section</tt><big>(</big><em>section_name</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.has_section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.has_section" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that an option exists and that it contains sub options.</p>
-<p>&#64;type section_name: string
-&#64;param section_name: The name of the section to check.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>section_name</strong> (<em>str</em>) &#8211; The name of the section to check.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the section exists.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -116,10 +163,18 @@ in multiple formats.</p>
 <dt id="workshop.configuration.Configuration.set">
 <tt class="descname">set</tt><big>(</big><em>item_name</em>, <em>item_value</em><big>)</big><a class="reference internal" href="_modules/workshop/configuration.html#Configuration.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.configuration.Configuration.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the value of an option in the configuration.</p>
-<p>&#64;type item_name: string
-&#64;param item_name: The name of the option to set.</p>
-<p>&#64;type item_value: *
-&#64;param item_value: The value of the option to set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>item_name</strong> (<em>str</em>) &#8211; The name of the option to set.</li>
+<li><strong>item_value</strong> &#8211; The value of the option to set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

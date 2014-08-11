@@ -16,6 +16,7 @@
 
 [References]()
 
+  * [Metasploit Constants](references/msf_constants.md)
   * [Metasploit Payload Sizes](references/msf_payload_sizes.md)
   * [Native Calling Conventions](references/calling_conventions.md)
 

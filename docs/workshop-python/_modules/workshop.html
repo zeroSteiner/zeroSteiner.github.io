@@ -82,8 +82,12 @@
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">urlparse</span>
 
 <span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.1&#39;</span>
 
@@ -308,6 +312,22 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">config_parser</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">section_name</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 </div></div>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Download a file from a url and save it to disk.</span>
+
+<span class="sd">	:param str url: The URL to fetch the file from.</span>
+<span class="sd">	:param str filename: The destination file to write the data to.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
+		<span class="n">url_parts</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+		<span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url_parts</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+	<span class="n">url_h</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_h</span><span class="p">:</span>
+		<span class="n">file_h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">url_h</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+	<span class="n">url_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+	<span class="k">return</span>
+
 <span class="k">def</span> <span class="nf">grep</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Search a file and return a list of all lines that match a regular expression.</span>
@@ -419,9 +439,21 @@
 		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;invalid time format&#39;</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">seconds</span>
 </div>
+<span class="k">def</span> <span class="nf">random_string_alphanumeric</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Generate a random string of *size* length consisting of both letters</span>
+<span class="sd">	and numbers. This function is not meant for cryptographic purposes.</span>
+
+<span class="sd">	:param int size: The length of the string to return.</span>
+<span class="sd">	:return: A string consisting of random characters.</span>
+<span class="sd">	:rtype: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+
 <div class="viewcode-block" id="unique"><a class="viewcode-back" href="../workshop.html#workshop.unique">[docs]</a><span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	Unique a list or tuple and preserve the order.</span>
+<span class="sd">	Create a unique list or tuple from a provided list or tuple and preserve the</span>
+<span class="sd">	order.</span>
 
 <span class="sd">	:param seq: The list or tuple to preserve unique items from.</span>
 <span class="sd">	:type seq: list, tuple</span>
