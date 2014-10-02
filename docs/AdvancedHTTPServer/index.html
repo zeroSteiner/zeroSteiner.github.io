@@ -118,6 +118,26 @@ class.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="AdvancedHTTPServer.random_string">
+<tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">random_string</tt><big>(</big><em>size</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#random_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.random_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random string of <em>size</em> length consisting of both letters
+and numbers. This function is not meant for cryptographic purposes
+and should not be used to generate security tokens.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> (<em>int</em>) &#8211; The length of the string to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string consisting of random characters.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
@@ -736,6 +756,90 @@ if it already existed.</p>
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_clear">
 <tt class="descname">cache_clear</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClientCached.cache_clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClientCached.cache_clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Purge the local store of all cached function information.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerTestCase</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class for unit tests with AdvancedHTTPServer derived classes.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.assertHTTPStatus">
+<tt class="descname">assertHTTPStatus</tt><big>(</big><em>http_response</em>, <em>status</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerTestCase.assertHTTPStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.assertHTTPStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check an HTTP response object and ensure the status is correct.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>http_response</strong> (<tt class="xref py py-class docutils literal"><span class="pre">httplib.HTTPResponse</span></tt>) &#8211; The response object to check.</li>
+<li><strong>status</strong> (<em>int</em>) &#8211; The status code to expect for <em>http_response</em>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.config">
+<tt class="descname">config</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.config" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt> object used by the server.
+It has the ip and port options configured in the section named in
+the <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section" title="AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section"><tt class="xref py py-attr docutils literal"><span class="pre">config_section</span></tt></a> attribute.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section">
+<tt class="descname">config_section</tt><em class="property"> = 'server'</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the <tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt> section that the server is using.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.handler_class">
+<tt class="descname">handler_class</tt><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.handler_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a> class to use as the request handler, this can be overridden by subclasses.</p>
+<p>alias of <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.http_request">
+<tt class="descname">http_request</tt><big>(</big><em>resource</em>, <em>method='GET'</em>, <em>headers=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerTestCase.http_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.http_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an HTTP request to the test server and return the response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>resource</strong> (<em>str</em>) &#8211; The resource to issue the request to.</li>
+<li><strong>method</strong> (<em>str</em>) &#8211; The HTTP verb to use (GET, HEAD, POST etc.).</li>
+<li><strong>headers</strong> (<em>dict</em>) &#8211; The HTTP headers to provide in the request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The HTTP response object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref py py-class docutils literal"><span class="pre">httplib.HTTPResponse</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.server_class">
+<tt class="descname">server_class</tt><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.server_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="AdvancedHTTPServer.AdvancedHTTPServer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a> class to use as the server, this can be overridden by subclasses.</p>
+<p>alias of <a class="reference internal" href="#module-AdvancedHTTPServer" title="AdvancedHTTPServer: Light and flexible web framework"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.test_resource">
+<tt class="descname">test_resource</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.test_resource" title="Permalink to this definition">¶</a></dt>
+<dd><p>A resource which has a handler set to it which will respond with
+a 200 status code and the message &#8216;Hello World!&#8217;</p>
 </dd></dl>
 
 </dd></dl>

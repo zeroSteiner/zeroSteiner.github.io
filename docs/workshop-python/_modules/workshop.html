@@ -84,6 +84,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">urllib2</span>
@@ -312,7 +313,7 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">config_parser</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">section_name</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 </div></div>
-<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="download"><a class="viewcode-back" href="../workshop.html#workshop.download">[docs]</a><span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Download a file from a url and save it to disk.</span>
 
@@ -324,11 +325,38 @@
 		<span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url_parts</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 	<span class="n">url_h</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_h</span><span class="p">:</span>
-		<span class="n">file_h</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">url_h</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+		<span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">url_h</span><span class="p">,</span> <span class="n">file_h</span><span class="p">)</span>
 	<span class="n">url_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	<span class="k">return</span>
+</div>
+<div class="viewcode-block" id="escape_single_quote"><a class="viewcode-back" href="../workshop.html#workshop.escape_single_quote">[docs]</a><span class="k">def</span> <span class="nf">escape_single_quote</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Escape a string containing single quotes and backslashes with backslashes.</span>
+<span class="sd">	This is useful when a string is evaluated in some way.</span>
 
-<span class="k">def</span> <span class="nf">grep</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="sd">	:param str string: The string to escape.</span>
+<span class="sd">	:return: The escaped string.</span>
+<span class="sd">	:rtype: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;(</span><span class="se">\&#39;</span><span class="s">|</span><span class="se">\\</span><span class="s">\)&#39;</span><span class="p">,</span> <span class="s">r&#39;</span><span class="se">\\</span><span class="s">\1&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="format_bytes_size"><a class="viewcode-back" href="../workshop.html#workshop.format_bytes_size">[docs]</a><span class="k">def</span> <span class="nf">format_bytes_size</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Take a number of bytes and convert it to a human readble number.</span>
+
+<span class="sd">	:param int val: The number of bytes to format.</span>
+<span class="sd">	:return: The size in a human readable format.</span>
+<span class="sd">	:rtype: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">val</span><span class="p">:</span>
+		<span class="k">return</span> <span class="s">&#39;0 bytes&#39;</span>
+	<span class="k">for</span> <span class="n">sz_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;bytes&#39;</span><span class="p">,</span> <span class="s">&#39;KB&#39;</span><span class="p">,</span> <span class="s">&#39;MB&#39;</span><span class="p">,</span> <span class="s">&#39;GB&#39;</span><span class="p">,</span> <span class="s">&#39;TB&#39;</span><span class="p">,</span> <span class="s">&#39;PB&#39;</span><span class="p">,</span> <span class="s">&#39;EB&#39;</span><span class="p">]:</span>
+		<span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mf">1024.0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="s">&quot;{0:.2f} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">sz_name</span><span class="p">)</span>
+		<span class="n">val</span> <span class="o">/=</span> <span class="mf">1024.0</span>
+	<span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="grep"><a class="viewcode-back" href="../workshop.html#workshop.grep">[docs]</a><span class="k">def</span> <span class="nf">grep</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">invert</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Search a file and return a list of all lines that match a regular expression.</span>
 
@@ -347,7 +375,7 @@
 		<span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">))</span> <span class="o">^</span> <span class="n">invert</span><span class="p">:</span>
 			<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">lines</span>
-
+</div>
 <div class="viewcode-block" id="parse_case_camel_to_snake"><a class="viewcode-back" href="../workshop.html#workshop.parse_case_camel_to_snake">[docs]</a><span class="k">def</span> <span class="nf">parse_case_camel_to_snake</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Convert a string from CamelCase to snake_case.</span>
@@ -439,7 +467,7 @@
 		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;invalid time format&#39;</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">seconds</span>
 </div>
-<span class="k">def</span> <span class="nf">random_string_alphanumeric</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+<div class="viewcode-block" id="random_string_alphanumeric"><a class="viewcode-back" href="../workshop.html#workshop.random_string_alphanumeric">[docs]</a><span class="k">def</span> <span class="nf">random_string_alphanumeric</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Generate a random string of *size* length consisting of both letters</span>
 <span class="sd">	and numbers. This function is not meant for cryptographic purposes.</span>
@@ -449,7 +477,19 @@
 <span class="sd">	:rtype: str</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="unescape_single_quote"><a class="viewcode-back" href="../workshop.html#workshop.unescape_single_quote">[docs]</a><span class="k">def</span> <span class="nf">unescape_single_quote</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Unescape a string which uses backslashes to escape single quotes.</span>
 
+<span class="sd">	:param str string: The string to unescape.</span>
+<span class="sd">	:return: The unescaped string.</span>
+<span class="sd">	:rtype: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\\\\</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span><span class="p">)</span>
+	<span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\\\&#39;</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\&#39;</span><span class="s">&#39;</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">string</span>
+</div>
 <div class="viewcode-block" id="unique"><a class="viewcode-back" href="../workshop.html#workshop.unique">[docs]</a><span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Create a unique list or tuple from a provided list or tuple and preserve the</span>

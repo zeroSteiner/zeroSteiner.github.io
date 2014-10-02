@@ -157,13 +157,17 @@ be removed after the specified time.</li>
 
 <dl class="method">
 <dt id="workshop.job.JobManager.job_delete">
-<tt class="descname">job_delete</tt><big>(</big><em>job_id</em><big>)</big><a class="reference internal" href="_modules/workshop/job.html#JobManager.job_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.job.JobManager.job_delete" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">job_delete</tt><big>(</big><em>job_id</em>, <em>wait=True</em><big>)</big><a class="reference internal" href="_modules/workshop/job.html#JobManager.job_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.job.JobManager.job_delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a job.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>job_id</strong> (<tt class="xref py py-class docutils literal"><span class="pre">uuid.UUID</span></tt>) &#8211; Job identifier to delete.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>job_id</strong> (<tt class="xref py py-class docutils literal"><span class="pre">uuid.UUID</span></tt>) &#8211; Job identifier to delete.</li>
+<li><strong>wait</strong> (<em>bool</em>) &#8211; If the job is currently running, wait for it to complete before deleting it.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -217,6 +221,23 @@ be removed after the specified time.</li>
 <dt id="workshop.job.JobManager.job_is_enabled">
 <tt class="descname">job_is_enabled</tt><big>(</big><em>job_id</em><big>)</big><a class="reference internal" href="_modules/workshop/job.html#JobManager.job_is_enabled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.job.JobManager.job_is_enabled" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a job is enabled.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>job_id</strong> (<tt class="xref py py-class docutils literal"><span class="pre">uuid.UUID</span></tt>) &#8211; Job identifier to check the status of.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="workshop.job.JobManager.job_is_running">
+<tt class="descname">job_is_running</tt><big>(</big><em>job_id</em><big>)</big><a class="reference internal" href="_modules/workshop/job.html#JobManager.job_is_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.job.JobManager.job_is_running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a job is currently running. False is returned if the job does
+not exist.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -302,9 +323,10 @@ current time.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="workshop.job.JobManager.run">
-<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop/job.html#JobManager.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.job.JobManager.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="workshop.job.JobManager.start">
+<tt class="descname">start</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/workshop/job.html#JobManager.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.job.JobManager.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the JobManager thread.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="workshop.job.JobManager.stop">

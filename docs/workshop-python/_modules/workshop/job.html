@@ -137,7 +137,7 @@
 <span class="c">#   tolerate_exceptions: boolean if true this job will run again after a failure</span>
 <span class="c">#   run_count: number of times the job has been ran</span>
 <span class="c">#   expiration: number of times to run a job, datetime.timedelta instance or None</span>
-<div class="viewcode-block" id="JobManager"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager">[docs]</a><span class="k">class</span> <span class="nc">JobManager</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+<div class="viewcode-block" id="JobManager"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager">[docs]</a><span class="k">class</span> <span class="nc">JobManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class provides a threaded job manager for periodically executing</span>
 <span class="sd">	arbitrary functions in an asynchronous fashion.</span>
@@ -146,24 +146,76 @@
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		:param bool use_utc: Whether or not to use UTC time internally.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="nb">super</span><span class="p">(</span><span class="n">JobManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span> <span class="o">=</span> <span class="p">{}</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_shutdown</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_shutdown</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">use_utc</span> <span class="o">=</span> <span class="n">use_utc</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
 </div>
-	<span class="k">def</span> <span class="nf">__job_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+	<span class="k">def</span> <span class="nf">_job_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
 		<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;last_run&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 		<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;run_count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;executing job with id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; and callback function: &#39;</span> <span class="o">+</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;callback&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
 		<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">JobRun</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;callback&#39;</span><span class="p">],</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;parameters&#39;</span><span class="p">])</span>
 		<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;the job manager has been started&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_shutdown</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+		<span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+			<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+				<span class="k">break</span>
+
+			<span class="c"># reap jobs</span>
+			<span class="n">jobs_for_removal</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+			<span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">job_desc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="n">job_obj</span> <span class="o">=</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span>
+				<span class="k">if</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="ow">or</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">reaped</span><span class="p">:</span>
+					<span class="k">continue</span>
+				<span class="k">if</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">exception</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;tolerate_exceptions&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;job &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; encountered an error and is not set to tolerate exceptions&#39;</span><span class="p">)</span>
+						<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;job &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; encountered exception: &#39;</span> <span class="o">+</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+					<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+						<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+					<span class="k">else</span><span class="p">:</span>
+						<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+				<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">],</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+					<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_is_after</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]):</span>
+						<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">request_delete</span><span class="p">:</span>
+					<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+				<span class="n">job_obj</span><span class="o">.</span><span class="n">reaped</span> <span class="o">=</span> <span class="bp">True</span>
+			<span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">jobs_for_removal</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">job_delete</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+
+			<span class="c"># sow jobs</span>
+			<span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">job_desc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+				<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;last_run&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_is_before</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;last_run&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;run_every&#39;</span><span class="p">]):</span>
+					<span class="k">continue</span>
+				<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+					<span class="k">continue</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reaped</span><span class="p">:</span>
+					<span class="k">continue</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]:</span>
+					<span class="k">continue</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_job_execute</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_shutdown</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 
 <div class="viewcode-block" id="JobManager.now"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.now">[docs]</a>	<span class="k">def</span> <span class="nf">now</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -198,77 +250,33 @@
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">dt</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
 </div>
+<div class="viewcode-block" id="JobManager.start"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.start">[docs]</a>	<span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Start the JobManager thread.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+			<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;the JobManager has already been started&#39;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</div>
 <div class="viewcode-block" id="JobManager.stop"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.stop">[docs]</a>	<span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Stop the JobManager thread.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;stopping the job manager&#39;</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;waiting on &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">))</span> <span class="o">+</span> <span class="s">&#39; job threads&#39;</span><span class="p">)</span>
-		<span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">job_desc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_shutdown</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;waiting on &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">))</span> <span class="o">+</span> <span class="s">&#39; job threads&#39;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">job_desc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 			<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
 				<span class="k">continue</span>
 			<span class="k">if</span> <span class="ow">not</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
 				<span class="k">continue</span>
 			<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;the job manager has been stopped&#39;</span><span class="p">)</span>
 		<span class="k">return</span>
-</div>
-<div class="viewcode-block" id="JobManager.run"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.run">[docs]</a>	<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;the job manager has been started&#39;</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-		<span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-			<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
-				<span class="k">break</span>
-
-			<span class="c"># Reap Jobs</span>
-			<span class="n">jobs_for_removal</span> <span class="o">=</span> <span class="p">[]</span>
-			<span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">job_desc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-				<span class="n">job_obj</span> <span class="o">=</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span>
-				<span class="k">if</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="ow">or</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">reaped</span><span class="p">:</span>
-					<span class="k">continue</span>
-				<span class="k">if</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">exception</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-					<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;tolerate_exceptions&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-						<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;job &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; encountered an error and is not set to tolerate exceptions&#39;</span><span class="p">)</span>
-						<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-					<span class="k">else</span><span class="p">:</span>
-						<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;job &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; encountered exception: &#39;</span> <span class="o">+</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">exception</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
-					<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-						<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-					<span class="k">else</span><span class="p">:</span>
-						<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-				<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">],</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
-					<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_is_after</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]):</span>
-						<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-				<span class="k">if</span> <span class="n">job_obj</span><span class="o">.</span><span class="n">request_delete</span><span class="p">:</span>
-					<span class="n">jobs_for_removal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-				<span class="n">job_obj</span><span class="o">.</span><span class="n">reaped</span> <span class="o">=</span> <span class="bp">True</span>
-			<span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">jobs_for_removal</span><span class="p">:</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">job_delete</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-
-			<span class="c"># Sow Jobs</span>
-			<span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">job_desc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-				<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;last_run&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">now_is_before</span><span class="p">(</span><span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;last_run&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;run_every&#39;</span><span class="p">]):</span>
-					<span class="k">continue</span>
-				<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
-					<span class="k">continue</span>
-				<span class="k">if</span> <span class="ow">not</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reaped</span><span class="p">:</span>
-					<span class="k">continue</span>
-				<span class="k">if</span> <span class="ow">not</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]:</span>
-					<span class="k">continue</span>
-				<span class="bp">self</span><span class="o">.</span><span class="n">__job_execute</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_run"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_run">[docs]</a>	<span class="k">def</span> <span class="nf">job_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -280,6 +288,8 @@
 <span class="sd">		:return: The job id.</span>
 <span class="sd">		:rtype: :py:class:`uuid.UUID`</span>
 <span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+			<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;the JobManager is not running&#39;</span><span class="p">)</span>
 		<span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">())</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
 			<span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="n">parameters</span><span class="p">,)</span>
@@ -295,9 +305,9 @@
 		<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;adding new job with id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; and callback function: &#39;</span> <span class="o">+</span> <span class="n">callback</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">job_desc</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">__job_execute</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">job_desc</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_job_execute</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">job_id</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_add"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_add">[docs]</a>	<span class="k">def</span> <span class="nf">job_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">parameters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">hours</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tolerate_exceptions</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">expiration</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -319,6 +329,8 @@
 <span class="sd">		:return: The job id.</span>
 <span class="sd">		:rtype: :py:class:`uuid.UUID`</span>
 <span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+			<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;the JobManager is not running&#39;</span><span class="p">)</span>
 		<span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="n">parameters</span> <span class="ow">or</span> <span class="p">())</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
 			<span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="n">parameters</span><span class="p">,)</span>
@@ -341,8 +353,8 @@
 			<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;expiration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;adding new job with id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; and callback function: &#39;</span> <span class="o">+</span> <span class="n">callback</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">job_desc</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">job_desc</span>
 		<span class="k">return</span> <span class="n">job_id</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_count"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_count">[docs]</a>	<span class="k">def</span> <span class="nf">job_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -352,7 +364,7 @@
 <span class="sd">		:return: The number of jobs.</span>
 <span class="sd">		:rtype: int</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_count_enabled"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_count_enabled">[docs]</a>	<span class="k">def</span> <span class="nf">job_count_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -361,7 +373,7 @@
 <span class="sd">		:return: The number of jobs that are enabled.</span>
 <span class="sd">		:rtype: int</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">job_desc</span><span class="p">:</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">job_desc</span><span class="p">:</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_enable"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_enable">[docs]</a>	<span class="k">def</span> <span class="nf">job_enable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -371,8 +383,8 @@
 <span class="sd">		:type job_id: :py:class:`uuid.UUID`</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">normalize_job_id</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="p">:</span>
-			<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="p">:</span>
+			<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
 			<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_disable"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_disable">[docs]</a>	<span class="k">def</span> <span class="nf">job_disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
@@ -383,21 +395,26 @@
 <span class="sd">		:type job_id: :py:class:`uuid.UUID`</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">normalize_job_id</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="p">:</span>
-			<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="p">:</span>
+			<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
 			<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 </div>
-<div class="viewcode-block" id="JobManager.job_delete"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_delete">[docs]</a>	<span class="k">def</span> <span class="nf">job_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+<div class="viewcode-block" id="JobManager.job_delete"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_delete">[docs]</a>	<span class="k">def</span> <span class="nf">job_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Delete a job.</span>
 
 <span class="sd">		:param job_id: Job identifier to delete.</span>
 <span class="sd">		:type job_id: :py:class:`uuid.UUID`</span>
+<span class="sd">		:param bool wait: If the job is currently running, wait for it to complete before deleting it.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">normalize_job_id</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;deleting job with id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; and callback function: &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">][</span><span class="s">&#39;callback&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_lock</span><span class="p">:</span>
-			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;deleting job with id: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; and callback function: &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">][</span><span class="s">&#39;callback&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="p">:</span>
+			<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_is_running</span><span class="p">(</span><span class="n">job_id</span><span class="p">):</span>
+				<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_exists"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_exists">[docs]</a>	<span class="k">def</span> <span class="nf">job_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -408,7 +425,7 @@
 <span class="sd">		:rtype: bool</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">normalize_job_id</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-		<span class="k">return</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span>
+		<span class="k">return</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span>
 </div>
 <div class="viewcode-block" id="JobManager.job_is_enabled"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_is_enabled">[docs]</a>	<span class="k">def</span> <span class="nf">job_is_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -419,8 +436,25 @@
 <span class="sd">		:rtype: bool</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="n">job_id</span> <span class="o">=</span> <span class="n">normalize_job_id</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__jobs__</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
-		<span class="k">return</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span></div></div>
+		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+		<span class="k">return</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="JobManager.job_is_running"><a class="viewcode-back" href="../../workshop.job.html#workshop.job.JobManager.job_is_running">[docs]</a>	<span class="k">def</span> <span class="nf">job_is_running</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">job_id</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Check if a job is currently running. False is returned if the job does</span>
+<span class="sd">		not exist.</span>
+
+<span class="sd">		:param job_id: Job identifier to check the status of.</span>
+<span class="sd">		:type job_id: :py:class:`uuid.UUID`</span>
+<span class="sd">		:rtype: bool</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">job_id</span> <span class="o">=</span> <span class="n">normalize_job_id</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">False</span>
+		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]:</span>
+			<span class="k">return</span> <span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span>
+		<span class="k">return</span> <span class="bp">False</span></div></div>
 </pre></div>
 
           </div>

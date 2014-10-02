@@ -57,6 +57,87 @@
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="workshop.download">
+<tt class="descclassname">workshop.</tt><tt class="descname">download</tt><big>(</big><em>url</em>, <em>filename=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a file from a url and save it to disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> (<em>str</em>) &#8211; The URL to fetch the file from.</li>
+<li><strong>filename</strong> (<em>str</em>) &#8211; The destination file to write the data to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.escape_single_quote">
+<tt class="descclassname">workshop.</tt><tt class="descname">escape_single_quote</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/workshop.html#escape_single_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.escape_single_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Escape a string containing single quotes and backslashes with backslashes.
+This is useful when a string is evaluated in some way.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> (<em>str</em>) &#8211; The string to escape.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The escaped string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.format_bytes_size">
+<tt class="descclassname">workshop.</tt><tt class="descname">format_bytes_size</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="_modules/workshop.html#format_bytes_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.format_bytes_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take a number of bytes and convert it to a human readble number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> (<em>int</em>) &#8211; The number of bytes to format.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The size in a human readable format.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.grep">
+<tt class="descclassname">workshop.</tt><tt class="descname">grep</tt><big>(</big><em>expression</em>, <em>file</em>, <em>flags=0</em>, <em>invert=False</em><big>)</big><a class="reference internal" href="_modules/workshop.html#grep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.grep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search a file and return a list of all lines that match a regular expression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>expression</strong> (<em>str</em>) &#8211; The regex to search for.</li>
+<li><strong>file</strong> (<em>str, file</em>) &#8211; The file to search in.</li>
+<li><strong>flags</strong> (<em>int</em>) &#8211; The regex flags to use when searching.</li>
+<li><strong>invert</strong> (<em>bool</em>) &#8211; Select non matching lines instead.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">All the matching lines.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="workshop.parse_case_camel_to_snake">
 <tt class="descclassname">workshop.</tt><tt class="descname">parse_case_camel_to_snake</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/workshop.html#parse_case_camel_to_snake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.parse_case_camel_to_snake" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a string from CamelCase to snake_case.</p>
@@ -139,6 +220,43 @@ in the server string.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The converted value in seconds.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.random_string_alphanumeric">
+<tt class="descclassname">workshop.</tt><tt class="descname">random_string_alphanumeric</tt><big>(</big><em>size</em><big>)</big><a class="reference internal" href="_modules/workshop.html#random_string_alphanumeric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.random_string_alphanumeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random string of <em>size</em> length consisting of both letters
+and numbers. This function is not meant for cryptographic purposes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> (<em>int</em>) &#8211; The length of the string to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string consisting of random characters.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="workshop.unescape_single_quote">
+<tt class="descclassname">workshop.</tt><tt class="descname">unescape_single_quote</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/workshop.html#unescape_single_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.unescape_single_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unescape a string which uses backslashes to escape single quotes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> (<em>str</em>) &#8211; The string to unescape.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The unescaped string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>

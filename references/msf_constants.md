@@ -1,3 +1,5 @@
+# Metasploit Constants
+
 ## Exploit Check Codes
 
 [Source File](https://github.com/rapid7/metasploit-framework/blob/master/lib/msf/core/exploit.rb)
