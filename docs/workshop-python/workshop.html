@@ -245,6 +245,32 @@ and numbers. This function is not meant for cryptographic purposes.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="workshop.selection_collision">
+<tt class="descclassname">workshop.</tt><tt class="descname">selection_collision</tt><big>(</big><em>selections</em>, <em>poolsize</em><big>)</big><a class="reference internal" href="_modules/workshop.html#selection_collision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.selection_collision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the probability that two random values selected from an arbitrary
+sized pool of unique values will be equal. This is commonly known as the
+&#8220;Birthday Problem&#8221;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>selections</strong> (<em>int</em>) &#8211; The number of random selections.</li>
+<li><strong>poolsize</strong> (<em>int</em>) &#8211; The number of unique random values in the pool to choose from.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">float</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The chance that a collision will occur as a percentage.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="workshop.unescape_single_quote">
 <tt class="descclassname">workshop.</tt><tt class="descname">unescape_single_quote</tt><big>(</big><em>string</em><big>)</big><a class="reference internal" href="_modules/workshop.html#unescape_single_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.unescape_single_quote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unescape a string which uses backslashes to escape single quotes.</p>
@@ -327,6 +353,30 @@ comparison process.</li>
 <em class="property">class </em><tt class="descclassname">workshop.</tt><tt class="descname">AttributeDict</tt><a class="reference internal" href="_modules/workshop.html#AttributeDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.AttributeDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class allows dictionary keys to be accessed as attributes. For
 example: <tt class="docutils literal"><span class="pre">ad</span> <span class="pre">=</span> <span class="pre">AttributeDict(test=1);</span> <span class="pre">ad['test']</span> <span class="pre">==</span> <span class="pre">ad.test</span></tt></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="workshop.BruteforceGenerator">
+<em class="property">class </em><tt class="descclassname">workshop.</tt><tt class="descname">BruteforceGenerator</tt><big>(</big><em>startlen</em>, <em>endlen=None</em>, <em>charset=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#BruteforceGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.BruteforceGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class allows itarating sequences for bruteforcing.</p>
+<dl class="method">
+<dt id="workshop.BruteforceGenerator.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>startlen</em>, <em>endlen=None</em>, <em>charset=None</em><big>)</big><a class="reference internal" href="_modules/workshop.html#BruteforceGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#workshop.BruteforceGenerator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>startlen</strong> (<em>int</em>) &#8211; The minimum sequence size to generate.</li>
+<li><strong>endlen</strong> (<em>int</em>) &#8211; The maximum sequence size to generate.</li>
+<li><strong>charset</strong> &#8211; The characters to include in the resulting sequences.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">

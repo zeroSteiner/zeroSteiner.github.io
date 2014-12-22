@@ -25,6 +25,8 @@ Functions
 
 .. autofunction:: workshop.random_string_alphanumeric
 
+.. autofunction:: workshop.selection_collision
+
 .. autofunction:: workshop.unescape_single_quote
 
 .. autofunction:: workshop.unique
@@ -40,6 +42,10 @@ Classes
    :members:
    :special-members: __init__
    :undoc-members:
+
+.. autoclass:: workshop.BruteforceGenerator
+   :members:
+   :special-members: __init__
 
 .. autoclass:: workshop.Cache
    :members:

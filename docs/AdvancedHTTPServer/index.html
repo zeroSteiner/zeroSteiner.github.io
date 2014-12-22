@@ -63,6 +63,24 @@ freely distributed and packaged with other software.</p>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="AdvancedHTTPServer.build_serializer_from_content_type">
+<tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">build_serializer_from_content_type</tt><big>(</big><em>content_type</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#build_serializer_from_content_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.build_serializer_from_content_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a serializer object from a MIME Content-Type string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>content_type</strong> (<em>str</em>) &#8211; The Content-Type string to parse.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new configured serializer instance.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerSerializer" title="AdvancedHTTPServer.AdvancedHTTPServerSerializer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerSerializer</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="AdvancedHTTPServer.build_server_from_argparser">
 <tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">build_server_from_argparser</tt><big>(</big><em>description=None</em>, <em>ServerClass=None</em>, <em>HandlerClass=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#build_server_from_argparser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.build_server_from_argparser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a server from command line arguments. If a ServerClass or
@@ -92,7 +110,7 @@ corresponding AdvancedHTTPServer base class.</p>
 <dl class="function">
 <dt id="AdvancedHTTPServer.build_server_from_config">
 <tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">build_server_from_config</tt><big>(</big><em>config</em>, <em>section_name</em>, <em>ServerClass=None</em>, <em>HandlerClass=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#build_server_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.build_server_from_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build a server from a provided <tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt>
+<dd><p>Build a server from a provided <tt class="xref py py-class docutils literal"><span class="pre">configparser.ConfigParser</span></tt>
 instance. If a ServerClass or HandlerClass is specified, then the
 object must inherit from the corresponding AdvancedHTTPServer base
 class.</p>
@@ -101,7 +119,7 @@ class.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>config</strong> (<tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt>) &#8211; Configuration to retrieve settings from.</li>
+<li><strong>config</strong> (<tt class="xref py py-class docutils literal"><span class="pre">configparser.ConfigParser</span></tt>) &#8211; Configuration to retrieve settings from.</li>
 <li><strong>section_name</strong> (<em>str</em>) &#8211; The section name of the configuration to use.</li>
 <li><strong>ServerClass</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="AdvancedHTTPServer.AdvancedHTTPServer"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServer</span></tt></a>) &#8211; Alternative server class to use.</li>
 <li><strong>HandlerClass</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>) &#8211; Alternative handler class to use.</li>
@@ -143,7 +161,7 @@ and should not be used to generate security tokens.</p>
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServer">
-<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServer</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServer</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em>, <em>ssl_keyfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the primary server class for the AdvancedHTTPServer framework.
 Custom servers must inherit from this object to be compatible. When
 no <em>address</em> parameter is specified the address &#8216;0.0.0.0&#8217; is used and
@@ -151,7 +169,7 @@ the port is guessed based on if the server is run as root or not and
 SSL is used.</p>
 <dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServer.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em>, <em>ssl_keyfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -160,7 +178,8 @@ SSL is used.</p>
 <li><strong>RequestHandler</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>) &#8211; The request handler class to use.</li>
 <li><strong>address</strong> (<em>tuple</em>) &#8211; The address to bind to in the format (host, port).</li>
 <li><strong>use_threads</strong> (<em>bool</em>) &#8211; Whether to enable the use of a threaded handler.</li>
-<li><strong>ssl_certfile</strong> (<em>str</em>) &#8211; A SSL certificate file to use, setting this enables SSL.</li>
+<li><strong>ssl_certfile</strong> (<em>str</em>) &#8211; An SSL certificate file to use, setting this enables SSL.</li>
+<li><strong>ssl_keyfile</strong> (<em>str</em>) &#8211; An SSL certificate file to use.</li>
 </ul>
 </td>
 </tr>
@@ -181,8 +200,8 @@ as a hash by specifying the hash type in the <em>pwtype</em> argument.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>username</strong> (<em>str</em>) &#8211; The username of the credentials to be added.</li>
-<li><strong>password</strong> (<em>str</em>) &#8211; The password data of the credentials to be added.</li>
-<li><strong>pwtype</strong> (<em>str</em>) &#8211; The type of the <em>password</em> data, (plain, md5 or sha1).</li>
+<li><strong>str password</strong> (<em>bytes,</em>) &#8211; The password data of the credentials to be added.</li>
+<li><strong>pwtype</strong> (<em>str</em>) &#8211; The type of the <em>password</em> data, (plain, md5, sha1, etc.).</li>
 </ul>
 </td>
 </tr>
@@ -214,20 +233,6 @@ stored credentials.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>status</strong> (<em>bool</em>) &#8211; Whether to enable or disable requiring authentication.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="AdvancedHTTPServer.AdvancedHTTPServer.init_rest_api">
-<tt class="descname">init_rest_api</tt><big>(</big><em>rest_api_handler</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.init_rest_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.init_rest_api" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize a REST API Handler.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rest_api_handler</strong> (<a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI" title="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRESTAPI</span></tt></a>) &#8211; The handler instance to register with the server.</td>
 </tr>
 </tbody>
 </table>
@@ -344,7 +349,7 @@ another thread.</p>
 
 <dl class="class">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRegisterPath">
-<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRegisterPath</tt><big>(</big><em>path</em>, <em>handler=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRegisterPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRegisterPath" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRegisterPath</tt><big>(</big><em>path</em>, <em>handler=None</em>, <em>is_rpc=False</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRegisterPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRegisterPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a path and handler with the global handler map. This can be
 used as a decorator. If no handler is specified then the path and
 function will be registered with all <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a>
@@ -356,7 +361,7 @@ instances.</p>
 </div>
 <dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRegisterPath.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>path</em>, <em>handler=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRegisterPath.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRegisterPath.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>path</em>, <em>handler=None</em>, <em>is_rpc=False</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRegisterPath.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRegisterPath.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -364,6 +369,7 @@ instances.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>path</strong> (<em>str</em>) &#8211; The path regex to register the function to.</li>
 <li><strong>handler</strong> (<em>str</em>) &#8211; A specific <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">AdvancedHTTPServerRequestHandler</span></tt></a> class to register the handler with.</li>
+<li><strong>is_rpc</strong> (<em>bool</em>) &#8211; Whether the handler is an RPC handler or not.</li>
 </ul>
 </td>
 </tr>
@@ -577,59 +583,6 @@ within an exception handler.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI">
-<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRESTAPI</tt><big>(</big><em>api_path='/api/'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a manager REST request handlers. It allows them to be grouped
-together and to use a common base path, &#8216;/api/&#8217; by default. Handler
-functions that are not class methods will be passed the instance of
-the managing class as the first argument.</p>
-<dl class="method">
-<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>api_path='/api/'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>api_path</strong> (<em>str</em>) &#8211; A base path to be prefixed to all handlers.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.api_path_regex">
-<tt class="descname">api_path_regex</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.api_path_regex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.api_path_regex" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.dispatch_handler">
-<tt class="descname">dispatch_handler</tt><big>(</big><em>request_handler</em>, <em>query</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.dispatch_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.dispatch_handler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dispatch functions based on the established handler_map. It is
-generally not necessary to override this function and doing so
-will prevent any handlers from being executed. This function is
-executed automatically when requests are received that being with
-the specified api base path.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query</strong> (<em>dict</em>) &#8211; Parsed query parameters from the corresponding request.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.install_handlers">
-<tt class="descname">install_handlers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRESTAPI.install_handlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRESTAPI.install_handlers" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method is meant to be over ridden by custom classes. It is
-called as part of the __init__ method and provides an opportunity
-for the handler maps to be populated with entries.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient">
 <em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerRPCClient</tt><big>(</big><em>address</em>, <em>use_ssl=False</em>, <em>username=None</em>, <em>password=None</em>, <em>uri_base='/'</em>, <em>hmac_key=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient" title="Permalink to this definition">¶</a></dt>
 <dd><p>This object facilitates communication with remote RPC methods as
@@ -696,7 +649,7 @@ procedure.</p>
 
 <dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCClient.set_serializer">
-<tt class="descname">set_serializer</tt><big>(</big><em>serializer_name</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.set_serializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.set_serializer" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_serializer</tt><big>(</big><em>serializer_name</em>, <em>compression=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCClient.set_serializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCClient.set_serializer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configure the serializer to use for communication with the server.
 The serializer specified must be valid and in the
 <a class="reference internal" href="#AdvancedHTTPServer.SERIALIZER_DRIVERS" title="AdvancedHTTPServer.SERIALIZER_DRIVERS"><tt class="xref py py-data docutils literal"><span class="pre">SERIALIZER_DRIVERS</span></tt></a> map.</p>
@@ -704,7 +657,11 @@ The serializer specified must be valid and in the
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>serializer_name</strong> (<em>str</em>) &#8211; The name of the serializer to use.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>serializer_name</strong> (<em>str</em>) &#8211; The name of the serializer to use.</li>
+<li><strong>compression</strong> (<em>str</em>) &#8211; The name of a compression library to use.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -761,6 +718,64 @@ if it already existed.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerSerializer">
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerSerializer</tt><big>(</big><em>name</em>, <em>charset='UTF-8'</em>, <em>compression=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerSerializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class represents a serilizer object for use with the RPC system.</p>
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerSerializer.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>name</em>, <em>charset='UTF-8'</em>, <em>compression=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerSerializer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerSerializer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; The name of the serializer to use.</li>
+<li><strong>charset</strong> (<em>str</em>) &#8211; The name of the encoding to use.</li>
+<li><strong>compression</strong> (<em>str</em>) &#8211; The compression library to use.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerSerializer.dumps">
+<tt class="descname">dumps</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerSerializer.dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerSerializer.dumps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serialize a python data type for transmission or storage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; The python object to serialize.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The serialized representation of the object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bytes</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerSerializer.loads">
+<tt class="descname">loads</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerSerializer.loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerSerializer.loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deserialize the data into it&#8217;s original python object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>bytes</em>) &#8211; The serialized object to load.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The original python object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase">
 <em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServerTestCase</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase" title="Permalink to this definition">¶</a></dt>
 <dd><p>A base class for unit tests with AdvancedHTTPServer derived classes.</p>
@@ -773,7 +788,7 @@ if it already existed.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>http_response</strong> (<tt class="xref py py-class docutils literal"><span class="pre">httplib.HTTPResponse</span></tt>) &#8211; The response object to check.</li>
+<li><strong>http_response</strong> (<tt class="xref py py-class docutils literal"><span class="pre">http.client.HTTPResponse</span></tt>) &#8211; The response object to check.</li>
 <li><strong>status</strong> (<em>int</em>) &#8211; The status code to expect for <em>http_response</em>.</li>
 </ul>
 </td>
@@ -785,7 +800,7 @@ if it already existed.</p>
 <dl class="attribute">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.config">
 <tt class="descname">config</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.config" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt> object used by the server.
+<dd><p>The <tt class="xref py py-class docutils literal"><span class="pre">configparser.ConfigParser</span></tt> object used by the server.
 It has the ip and port options configured in the section named in
 the <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section" title="AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section"><tt class="xref py py-attr docutils literal"><span class="pre">config_section</span></tt></a> attribute.</p>
 </dd></dl>
@@ -793,7 +808,7 @@ the <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerTe
 <dl class="attribute">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section">
 <tt class="descname">config_section</tt><em class="property"> = 'server'</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerTestCase.config_section" title="Permalink to this definition">¶</a></dt>
-<dd><p>The name of the <tt class="xref py py-class docutils literal"><span class="pre">ConfigParser.ConfigParser</span></tt> section that the server is using.</p>
+<dd><p>The name of the <tt class="xref py py-class docutils literal"><span class="pre">configparser.ConfigParser</span></tt> section that the server is using.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -821,7 +836,7 @@ the <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerTe
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The HTTP response object.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref py py-class docutils literal"><span class="pre">httplib.HTTPResponse</span></tt></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="xref py py-class docutils literal"><span class="pre">http.client.HTTPResponse</span></tt></p>
 </td>
 </tr>
 </tbody>

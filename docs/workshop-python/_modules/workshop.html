@@ -81,14 +81,23 @@
 
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">urllib2</span>
-<span class="kn">import</span> <span class="nn">urlparse</span>
+
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">urllib</span>
+	<span class="kn">import</span> <span class="nn">urlparse</span>
+	<span class="n">urllib</span><span class="o">.</span><span class="n">parse</span> <span class="o">=</span> <span class="n">urlparse</span>
+	<span class="n">urllib</span><span class="o">.</span><span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span>
+<span class="k">else</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">urllib.parse</span>
+	<span class="kn">import</span> <span class="nn">urllib.request</span>
 
 <span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.1&#39;</span>
 
@@ -99,6 +108,51 @@
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="n">__getattr__</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">__getitem__</span>
 	<span class="n">__setattr__</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">__setitem__</span>
+</div>
+<div class="viewcode-block" id="BruteforceGenerator"><a class="viewcode-back" href="../workshop.html#workshop.BruteforceGenerator">[docs]</a><span class="k">class</span> <span class="nc">BruteforceGenerator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This class allows itarating sequences for bruteforcing.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirments = itertools</span>
+<div class="viewcode-block" id="BruteforceGenerator.__init__"><a class="viewcode-back" href="../workshop.html#workshop.BruteforceGenerator.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startlen</span><span class="p">,</span> <span class="n">endlen</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		:param int startlen: The minimum sequence size to generate.</span>
+<span class="sd">		:param int endlen: The maximum sequence size to generate.</span>
+<span class="sd">		:param charset: The characters to include in the resulting sequences.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">startlen</span> <span class="o">=</span> <span class="n">startlen</span>
+		<span class="k">if</span> <span class="n">endlen</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">endlen</span> <span class="o">=</span> <span class="n">startlen</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">endlen</span> <span class="o">=</span> <span class="n">endlen</span>
+		<span class="k">if</span> <span class="n">charset</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="n">charset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">)))</span>
+		<span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+			<span class="n">charset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bytes</span><span class="p">:</span>
+			<span class="n">charset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">charset</span><span class="p">))</span>
+		<span class="n">charset</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">charset</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">startlen</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_product</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">charset</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next__</span>
+</div>
+	<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span>
+
+	<span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_product</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">endlen</span><span class="p">:</span>
+				<span class="k">raise</span> <span class="ne">StopIteration</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_product</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">charset</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+			<span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_product</span><span class="p">)</span>
+		<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Cache"><a class="viewcode-back" href="../workshop.html#workshop.Cache">[docs]</a><span class="k">class</span> <span class="nc">Cache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
@@ -179,10 +233,14 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">skip_dirs</span> <span class="o">=</span> <span class="n">skip_dirs</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">filter_func</span> <span class="o">=</span> <span class="n">filter_func</span>
 		<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filespath</span><span class="p">):</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">__iter__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_dir</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_walk</span> <span class="o">=</span> <span class="bp">None</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_dir</span>
 		<span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filespath</span><span class="p">):</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">__iter__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_file</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_file</span>
 </div>
+	<span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next</span><span class="p">()</span>
+
 	<span class="k">def</span> <span class="nf">_skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cur_file</span><span class="p">):</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_files</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cur_file</span><span class="p">):</span>
 			<span class="k">return</span> <span class="bp">True</span>
@@ -207,7 +265,7 @@
 
 	<span class="k">def</span> <span class="nf">_next_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filespath</span><span class="p">):</span>
-			<span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">filespath</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filespath</span>
 		<span class="k">raise</span> <span class="ne">StopIteration</span>
 </div>
 <div class="viewcode-block" id="SectionConfigParser"><a class="viewcode-back" href="../workshop.html#workshop.SectionConfigParser">[docs]</a><span class="k">class</span> <span class="nc">SectionConfigParser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -320,10 +378,11 @@
 <span class="sd">	:param str url: The URL to fetch the file from.</span>
 <span class="sd">	:param str filename: The destination file to write the data to.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements os, shutil, urllib.parse, urllib.request</span>
 	<span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
-		<span class="n">url_parts</span> <span class="o">=</span> <span class="n">urlparse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+		<span class="n">url_parts</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 		<span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url_parts</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-	<span class="n">url_h</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+	<span class="n">url_h</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_h</span><span class="p">:</span>
 		<span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">url_h</span><span class="p">,</span> <span class="n">file_h</span><span class="p">)</span>
 	<span class="n">url_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -338,6 +397,7 @@
 <span class="sd">	:return: The escaped string.</span>
 <span class="sd">	:rtype: str</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = re</span>
 	<span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;(</span><span class="se">\&#39;</span><span class="s">|</span><span class="se">\\</span><span class="s">\)&#39;</span><span class="p">,</span> <span class="s">r&#39;</span><span class="se">\\</span><span class="s">\1&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="format_bytes_size"><a class="viewcode-back" href="../workshop.html#workshop.format_bytes_size">[docs]</a><span class="k">def</span> <span class="nf">format_bytes_size</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
@@ -368,6 +428,7 @@
 <span class="sd">	:return: All the matching lines.</span>
 <span class="sd">	:rtype: list</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = re</span>
 	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 		<span class="nb">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
 	<span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
@@ -384,6 +445,7 @@
 <span class="sd">	:return: The snake_case version of string.</span>
 <span class="sd">	:rtype: str</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = re</span>
 	<span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;((?&lt;=[a-z0-9])[A-Z]|(?!^)[A-Z](?=[a-z]))&#39;</span><span class="p">,</span> <span class="s">r&#39;_\1&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="parse_case_snake_to_camel"><a class="viewcode-back" href="../workshop.html#workshop.parse_case_snake_to_camel">[docs]</a><span class="k">def</span> <span class="nf">parse_case_snake_to_camel</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">upper_first</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
@@ -467,6 +529,38 @@
 		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;invalid time format&#39;</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">seconds</span>
 </div>
+<span class="k">def</span> <span class="nf">parse_to_slug</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">24</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Parse a string into a slug format suitable for use in URLs and other</span>
+<span class="sd">	character restricted applications. Only ascii strings are</span>
+<span class="sd">	supported at this time.</span>
+
+<span class="sd">	:param str string: The string to parse.</span>
+<span class="sd">	:param int maxlen: The maximum length of the slug.</span>
+<span class="sd">	:return: The parsed string as a slug.</span>
+<span class="sd">	:rtype: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">slug</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+	<span class="n">string</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="s">&#39;ignore&#39;</span><span class="p">)</span>
+	<span class="n">maxlen</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)):</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span> <span class="o">==</span> <span class="n">maxlen</span><span class="p">:</span>
+			<span class="k">break</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+		<span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mh">0x27</span><span class="p">:</span>
+			<span class="k">continue</span>
+		<span class="k">elif</span> <span class="n">c</span> <span class="o">&gt;=</span> <span class="mh">0x30</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mh">0x39</span><span class="p">:</span>
+			<span class="n">slug</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">c</span> <span class="o">&gt;=</span> <span class="mh">0x41</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mh">0x5a</span><span class="p">:</span>
+			<span class="n">slug</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mh">0x20</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">c</span> <span class="o">&gt;=</span> <span class="mh">0x61</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="mh">0x7a</span><span class="p">:</span>
+			<span class="n">slug</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span> <span class="ow">and</span> <span class="n">slug</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;-&#39;</span><span class="p">:</span>
+			<span class="n">slug</span> <span class="o">+=</span> <span class="s">&#39;-&#39;</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span> <span class="ow">and</span> <span class="n">slug</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;-&#39;</span><span class="p">:</span>
+		<span class="n">slug</span> <span class="o">=</span> <span class="n">slug</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+	<span class="k">return</span> <span class="n">slug</span>
+
 <div class="viewcode-block" id="random_string_alphanumeric"><a class="viewcode-back" href="../workshop.html#workshop.random_string_alphanumeric">[docs]</a><span class="k">def</span> <span class="nf">random_string_alphanumeric</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Generate a random string of *size* length consisting of both letters</span>
@@ -476,7 +570,31 @@
 <span class="sd">	:return: A string consisting of random characters.</span>
 <span class="sd">	:rtype: str</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = random, string</span>
 	<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="selection_collision"><a class="viewcode-back" href="../workshop.html#workshop.selection_collision">[docs]</a><span class="k">def</span> <span class="nf">selection_collision</span><span class="p">(</span><span class="n">selections</span><span class="p">,</span> <span class="n">poolsize</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Calculate the probability that two random values selected from an arbitrary</span>
+<span class="sd">	sized pool of unique values will be equal. This is commonly known as the</span>
+<span class="sd">	&quot;Birthday Problem&quot;.</span>
+
+<span class="sd">	:param int selections: The number of random selections.</span>
+<span class="sd">	:param int poolsize: The number of unique random values in the pool to choose from.</span>
+<span class="sd">	:rtype: float</span>
+<span class="sd">	:return: The chance that a collision will occur as a percentage.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirments = sys</span>
+	<span class="n">probability</span> <span class="o">=</span> <span class="mf">100.0</span>
+	<span class="n">poolsize</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">poolsize</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+		<span class="n">_range</span> <span class="o">=</span> <span class="nb">xrange</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">_range</span> <span class="o">=</span> <span class="nb">range</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_range</span><span class="p">(</span><span class="n">selections</span><span class="p">):</span>
+		<span class="n">probability</span> <span class="o">=</span> <span class="n">probability</span> <span class="o">*</span> <span class="p">(</span><span class="n">poolsize</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="n">poolsize</span>
+	<span class="n">probability</span> <span class="o">=</span> <span class="p">(</span><span class="mf">100.0</span> <span class="o">-</span> <span class="n">probability</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">probability</span>
 </div>
 <div class="viewcode-block" id="unescape_single_quote"><a class="viewcode-back" href="../workshop.html#workshop.unescape_single_quote">[docs]</a><span class="k">def</span> <span class="nf">unescape_single_quote</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
@@ -504,13 +622,13 @@
 	<span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
 		<span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
 	<span class="n">preserved_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-	<span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="n">seen</span> <span class="o">=</span> <span class="p">[]</span>
 	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
 	<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
 		<span class="n">marker</span> <span class="o">=</span> <span class="n">key</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
 			<span class="k">continue</span>
-		<span class="n">seen</span><span class="p">[</span><span class="n">marker</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="n">seen</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">marker</span><span class="p">)</span>
 		<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">preserved_type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </div>
@@ -522,14 +640,15 @@
 <span class="sd">	:return: The full path to the executable.</span>
 <span class="sd">	:rtype: str</span>
 <span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = os</span>
 	<span class="n">is_exe</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">fpath</span><span class="p">:</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">))</span>
-	<span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
-		<span class="k">return</span> <span class="n">program</span>
 	<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>
 		<span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">)</span>
 		<span class="n">exe_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">program</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">exe_file</span><span class="p">):</span>
 			<span class="k">return</span> <span class="n">exe_file</span>
+	<span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">program</span><span class="p">)</span>
 	<span class="k">return</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="xfrange"><a class="viewcode-back" href="../workshop.html#workshop.xfrange">[docs]</a><span class="k">def</span> <span class="nf">xfrange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
