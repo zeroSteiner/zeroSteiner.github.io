@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>AdvancedHTTPServer — Light and flexible web framework &mdash; AdvancedHTTPServer 0.3 documentation</title>
+    <title>AdvancedHTTPServer — Light and flexible web framework &mdash; AdvancedHTTPServer 0.4 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.3',
+        VERSION:     '0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="AdvancedHTTPServer 0.3 documentation" href="#" /> 
+    <link rel="top" title="AdvancedHTTPServer 0.4 documentation" href="#" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">AdvancedHTTPServer 0.3 documentation</a> &raquo;</li> 
+        <li><a href="#">AdvancedHTTPServer 0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -156,12 +156,31 @@ and should not be used to generate security tokens.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="AdvancedHTTPServer.resolve_ssl_protocol_version">
+<tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">resolve_ssl_protocol_version</tt><big>(</big><em>version=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#resolve_ssl_protocol_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.resolve_ssl_protocol_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look up an SSL protocol version by name. If <em>version</em> is not specified, then
+the strongest protocol available will be returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>version</strong> (<em>str</em>) &#8211; The name of the version to look up.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A protocol constant from the <tt class="xref py py-mod docutils literal"><span class="pre">ssl</span></tt> module.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServer">
-<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServer</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em>, <em>ssl_keyfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">AdvancedHTTPServer.</tt><tt class="descname">AdvancedHTTPServer</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em>, <em>ssl_keyfile=None</em>, <em>ssl_version=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the primary server class for the AdvancedHTTPServer framework.
 Custom servers must inherit from this object to be compatible. When
 no <em>address</em> parameter is specified the address &#8216;0.0.0.0&#8217; is used and
@@ -169,7 +188,7 @@ the port is guessed based on if the server is run as root or not and
 SSL is used.</p>
 <dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServer.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em>, <em>ssl_keyfile=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>RequestHandler</em>, <em>address=None</em>, <em>use_threads=True</em>, <em>ssl_certfile=None</em>, <em>ssl_keyfile=None</em>, <em>ssl_version=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServer.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -180,6 +199,7 @@ SSL is used.</p>
 <li><strong>use_threads</strong> (<em>bool</em>) &#8211; Whether to enable the use of a threaded handler.</li>
 <li><strong>ssl_certfile</strong> (<em>str</em>) &#8211; An SSL certificate file to use, setting this enables SSL.</li>
 <li><strong>ssl_keyfile</strong> (<em>str</em>) &#8211; An SSL certificate file to use.</li>
+<li><strong>ssl_version</strong> &#8211; The SSL protocol version to use.</li>
 </ul>
 </td>
 </tr>
@@ -200,7 +220,7 @@ as a hash by specifying the hash type in the <em>pwtype</em> argument.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>username</strong> (<em>str</em>) &#8211; The username of the credentials to be added.</li>
-<li><strong>str password</strong> (<em>bytes,</em>) &#8211; The password data of the credentials to be added.</li>
+<li><strong>password</strong> (<em>bytes, str</em>) &#8211; The password data of the credentials to be added.</li>
 <li><strong>pwtype</strong> (<em>str</em>) &#8211; The type of the <em>password</em> data, (plain, md5, sha1, etc.).</li>
 </ul>
 </td>
@@ -392,11 +412,19 @@ attribute for GET HEAD and POST requests and <em>rpc_handler_map</em> for RPC
 requests. Non-RPC handler functions that are not class methods of
 the request handler instance will be passed the instance of the
 request handler as the first argument.</p>
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.basic_auth_user">
+<tt class="descname">basic_auth_user</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.basic_auth_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the user if the current request is using basic authentication.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.check_authorization">
 <tt class="descname">check_authorization</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.check_authorization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.check_authorization" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check for the presence of a basic auth Authorization header and
-if the credentials contained within are valid.</p>
+if the credentials contained within in are valid.
+:return: Whether or not the credentials are valid.
+:rtype: bool</p>
 </dd></dl>
 
 <dl class="method">
@@ -453,6 +481,43 @@ are received.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.get_content_type_charset">
+<tt class="descname">get_content_type_charset</tt><big>(</big><em>default='UTF-8'</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.get_content_type_charset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.get_content_type_charset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inspect the Content-Type header to retrieve the charset that the client
+has specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>default</strong> (<em>str</em>) &#8211; The default charset to return if none exists.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The charset of the request.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.get_query">
+<tt class="descname">get_query</tt><big>(</big><em>name</em>, <em>default=None</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.get_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.get_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a value from the query data that was sent to the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; The name of the query value to retrieve.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value if it exists, otherwise <em>default</em> will be returned.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.guess_mime_type">
 <tt class="descname">guess_mime_type</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.guess_mime_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.guess_mime_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Guess an appropriate MIME type based on the extension of the
@@ -471,12 +536,36 @@ provided path.</p>
 </table>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.handler_map">
+<tt class="descname">handler_map</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.handler_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dict object which maps regular expressions of resources to the functions which should handle them.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.headers_active">
+<tt class="descname">headers_active</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.headers_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not the request is in the sending headers phase.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.install_handlers">
 <tt class="descname">install_handlers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRequestHandler.install_handlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.install_handlers" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is meant to be over ridden by custom classes. It is
 called as part of the __init__ method and provides an opportunity
 for the handler maps to be populated with entries.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.query_data">
+<tt class="descname">query_data</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.query_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The parameter data that has been passed to the server parsed as a dict.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.raw_query_data">
+<tt class="descname">raw_query_data</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.raw_query_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The raw data that was parsed into the <a class="reference internal" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.query_data" title="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.query_data"><tt class="xref py py-attr docutils literal"><span class="pre">query_data</span></tt></a> attribute.</p>
 </dd></dl>
 
 <dl class="method">
@@ -566,6 +655,12 @@ within an exception handler.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.rpc_handler_map">
+<tt class="descname">rpc_handler_map</tt><em class="property"> = None</em><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.rpc_handler_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dict object which maps regular expressions of RPC functions to their handlers.</p>
 </dd></dl>
 
 <dl class="method">
@@ -870,8 +965,16 @@ in routines executed on the server will raise this error.</p>
 <dl class="attribute">
 <dt id="AdvancedHTTPServer.AdvancedHTTPServerRPCError.is_remote_exception">
 <tt class="descname">is_remote_exception</tt><a class="reference internal" href="_modules/AdvancedHTTPServer.html#AdvancedHTTPServerRPCError.is_remote_exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AdvancedHTTPServer.AdvancedHTTPServerRPCError.is_remote_exception" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is true of the represented error resulted from an exception
-on the remote server.</p>
+<dd><p>This is true if the represented error resulted from an exception on the
+remote server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -927,12 +1030,12 @@ on the remote server.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">AdvancedHTTPServer 0.3 documentation</a> &raquo;</li> 
+        <li><a href="#">AdvancedHTTPServer 0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Spencer McIntyre.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2013-2015, Spencer McIntyre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

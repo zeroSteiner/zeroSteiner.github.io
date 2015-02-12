@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>AdvancedHTTPServer &mdash; AdvancedHTTPServer 0.3 documentation</title>
+    <title>AdvancedHTTPServer &mdash; AdvancedHTTPServer 0.4 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.3',
+        VERSION:     '0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="AdvancedHTTPServer 0.3 documentation" href="../index.html" />
+    <link rel="top" title="AdvancedHTTPServer 0.4 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">AdvancedHTTPServer 0.3 documentation</a> &raquo;</li>
+        <li><a href="../index.html">AdvancedHTTPServer 0.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -78,43 +78,43 @@
 <span class="c">#  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
 <span class="c">#  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
 <span class="c">#</span>
+<span class="c">#  pylint: disable=too-many-lines</span>
 
 <span class="c">#  Homepage: https://github.com/zeroSteiner/AdvancedHTTPServer</span>
 <span class="c">#  Author:   Spencer McIntyre (zeroSteiner)</span>
 
-<span class="c"># Config File Example</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">[server]</span>
-<span class="sd">ip = 0.0.0.0</span>
-<span class="sd">port = 8080</span>
-<span class="sd">web_root = /var/www/html</span>
-<span class="sd">list_directories = True</span>
-<span class="sd"># Set an ssl_cert to enable SSL</span>
-<span class="sd"># ssl_cert = /path/to/cert.pem</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="c"># Config file example</span>
+<span class="n">FILE_CONFIG</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">[server]</span>
+<span class="s">ip = 0.0.0.0</span>
+<span class="s">port = 8080</span>
+<span class="s">web_root = /var/www/html</span>
+<span class="s">list_directories = True</span>
+<span class="s"># Set an ssl_cert to enable SSL</span>
+<span class="s"># ssl_cert = /path/to/cert.pem</span>
+<span class="s">&quot;&quot;&quot;</span>
 
 <span class="c"># The AdvancedHTTPServer systemd service unit file</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd"># Quick How To:</span>
-<span class="sd"># 1. Copy this file to /etc/systemd/system/pyhttpd.service</span>
-<span class="sd"># 2. Edit &lt;USER&gt; and run parameters appropriately in the ExecStart option</span>
-<span class="sd"># 3. Set configuration settings in /etc/pyhttpd.conf</span>
-<span class="sd"># 4. Run &quot;systemctl daemon-reload&quot;</span>
+<span class="c"># Quick how to:</span>
+<span class="c">#   1. Copy this file to /etc/systemd/system/pyhttpd.service</span>
+<span class="c">#   2. Edit the run parameters appropriately in the ExecStart option</span>
+<span class="c">#   3. Set configuration settings in /etc/pyhttpd.conf</span>
+<span class="c">#   4. Run &quot;systemctl daemon-reload&quot;</span>
+<span class="n">FILE_SYSTEMD_SERVICE_UNIT</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">[Unit]</span>
+<span class="s">Description=Python Advanced HTTP Server</span>
+<span class="s">After=network.target</span>
 
-<span class="sd">[Unit]</span>
-<span class="sd">Description=Python Advanced HTTP Server</span>
-<span class="sd">After=network.target</span>
+<span class="s">[Service]</span>
+<span class="s">Type=simple</span>
+<span class="s">ExecStart=/sbin/runuser -l nobody -c &quot;/usr/bin/python -m AdvancedHTTPServer -c /etc/pyhttpd.conf&quot;</span>
+<span class="s">ExecStop=/bin/kill -INT $MAINPID</span>
 
-<span class="sd">[Service]</span>
-<span class="sd">Type=simple</span>
-<span class="sd">ExecStart=/sbin/runuser -l &lt;USER&gt; -c &quot;/usr/bin/python -m AdvancedHTTPServer -c /etc/pyhttpd.conf&quot;</span>
-<span class="sd">ExecStop=/bin/kill -INT $MAINPID</span>
+<span class="s">[Install]</span>
+<span class="s">WantedBy=multi-user.target</span>
+<span class="s">&quot;&quot;&quot;</span>
 
-<span class="sd">[Install]</span>
-<span class="sd">WantedBy=multi-user.target</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.4.0&#39;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.4.3&#39;</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
 	<span class="s">&#39;AdvancedHTTPServer&#39;</span><span class="p">,</span>
 	<span class="s">&#39;AdvancedHTTPServerRegisterPath&#39;</span><span class="p">,</span>
@@ -129,7 +129,6 @@
 
 <span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">binascii</span>
-<span class="kn">import</span> <span class="nn">cgi</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">hmac</span>
@@ -157,6 +156,7 @@
 
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
 	<span class="kn">import</span> <span class="nn">BaseHTTPServer</span>
+	<span class="kn">import</span> <span class="nn">cgi</span> <span class="kn">as</span> <span class="nn">html</span>
 	<span class="kn">import</span> <span class="nn">Cookie</span>
 	<span class="kn">import</span> <span class="nn">httplib</span>
 	<span class="kn">import</span> <span class="nn">SocketServer</span> <span class="kn">as</span> <span class="nn">socketserver</span>
@@ -167,6 +167,7 @@
 	<span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">unquote</span>
 	<span class="kn">from</span> <span class="nn">ConfigParser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 <span class="k">else</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">html</span>
 	<span class="kn">import</span> <span class="nn">http.client</span>
 	<span class="kn">import</span> <span class="nn">http.cookies</span>
 	<span class="kn">import</span> <span class="nn">http.server</span>
@@ -192,7 +193,7 @@
 
 <span class="n">SERIALIZER_DRIVERS</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="sd">&quot;&quot;&quot;Dictionary of available drivers for serialization.&quot;&quot;&quot;</span>
-<span class="n">SERIALIZER_DRIVERS</span><span class="p">[</span><span class="s">&#39;application/json&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;loads&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">_json_object_hook</span><span class="p">),</span> <span class="s">&#39;dumps&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">_json_default</span><span class="p">)}</span>
+<span class="n">SERIALIZER_DRIVERS</span><span class="p">[</span><span class="s">&#39;application/json&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;loads&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">_json_object_hook</span><span class="p">),</span> <span class="s">&#39;dumps&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">_json_default</span><span class="p">)}</span>
 
 <span class="k">try</span><span class="p">:</span>
 	<span class="kn">import</span> <span class="nn">msgpack</span>
@@ -201,17 +202,22 @@
 <span class="k">else</span><span class="p">:</span>
 	<span class="k">def</span> <span class="nf">_msgpack_default</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
-			<span class="k">return</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">ExtType</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+			<span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+			<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+				<span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+			<span class="k">return</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">ExtType</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
 		<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Unknown type: &#39;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
 
 	<span class="k">def</span> <span class="nf">_msgpack_ext_hook</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 		<span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+				<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
 			<span class="k">if</span> <span class="s">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
 				<span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S.</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">)</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S&#39;</span><span class="p">)</span>
-		<span class="k">return</span> <span class="n">msfpack</span><span class="o">.</span><span class="n">ExtType</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-	<span class="n">SERIALIZER_DRIVERS</span><span class="p">[</span><span class="s">&#39;binary/message-pack&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;loads&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ext_hook</span><span class="o">=</span><span class="n">_msgpack_ext_hook</span><span class="p">),</span> <span class="s">&#39;dumps&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">_msgpack_default</span><span class="p">)}</span>
+		<span class="k">return</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">ExtType</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+	<span class="n">SERIALIZER_DRIVERS</span><span class="p">[</span><span class="s">&#39;binary/message-pack&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;loads&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">ext_hook</span><span class="o">=</span><span class="n">_msgpack_ext_hook</span><span class="p">),</span> <span class="s">&#39;dumps&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">_msgpack_default</span><span class="p">)}</span>
 
 
 <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="s">&#39;NullHandler&#39;</span><span class="p">):</span>
@@ -228,6 +234,27 @@
 <span class="sd">	:rtype: str</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="resolve_ssl_protocol_version"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.resolve_ssl_protocol_version">[docs]</a><span class="k">def</span> <span class="nf">resolve_ssl_protocol_version</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Look up an SSL protocol version by name. If *version* is not specified, then</span>
+<span class="sd">	the strongest protocol available will be returned.</span>
+
+<span class="sd">	:param str version: The name of the version to look up.</span>
+<span class="sd">	:return: A protocol constant from the :py:mod:`ssl` module.</span>
+<span class="sd">	:rtype: int</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="n">version</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="n">protocol_preference</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;TLSv1_2&#39;</span><span class="p">,</span> <span class="s">&#39;TLSv1_1&#39;</span><span class="p">,</span> <span class="s">&#39;TLSv1&#39;</span><span class="p">,</span> <span class="s">&#39;SSLv3&#39;</span><span class="p">,</span> <span class="s">&#39;SSLv23&#39;</span><span class="p">,</span> <span class="s">&#39;SSLv2&#39;</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">protocol</span> <span class="ow">in</span> <span class="n">protocol_preference</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ssl</span><span class="p">,</span> <span class="s">&#39;PROTOCOL_&#39;</span> <span class="o">+</span> <span class="n">protocol</span><span class="p">):</span>
+				<span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ssl</span><span class="p">,</span> <span class="s">&#39;PROTOCOL_&#39;</span> <span class="o">+</span> <span class="n">protocol</span><span class="p">)</span>
+		<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;could not find a suitable ssl PROTOCOL_ version constant&#39;</span><span class="p">)</span>
+	<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ssl</span><span class="p">,</span> <span class="s">&#39;PROTOCOL_&#39;</span> <span class="o">+</span> <span class="n">version</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;invalid ssl protocol version: &#39;</span> <span class="o">+</span> <span class="n">version</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ssl</span><span class="p">,</span> <span class="s">&#39;PROTOCOL_&#39;</span> <span class="o">+</span> <span class="n">version</span><span class="p">)</span>
+	<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;ssl_version() argument 1 must be str, not {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">version</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="build_serializer_from_content_type"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.build_serializer_from_content_type">[docs]</a><span class="k">def</span> <span class="nf">build_serializer_from_content_type</span><span class="p">(</span><span class="n">content_type</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
@@ -270,14 +297,27 @@
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="kn">import</span> <span class="nn">argparse</span>
 
-	<span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="n">description</span> <span class="ow">or</span> <span class="s">&#39;AdvancedHTTPServer&#39;</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">_argp_dir_type</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+			<span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s">&quot;{0} is not a valid directory&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span>
+		<span class="k">return</span> <span class="n">arg</span>
+
+	<span class="k">def</span> <span class="nf">_argp_port_type</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+			<span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s">&quot;{0} is not a valid port&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span>
+		<span class="n">arg</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">arg</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">arg</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s">&quot;{0} is not a valid port&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span>
+		<span class="k">return</span> <span class="n">arg</span>
+
+	<span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="n">description</span> <span class="ow">or</span> <span class="s">&#39;HTTP Server&#39;</span><span class="p">)</span>
 	<span class="n">ServerClass</span> <span class="o">=</span> <span class="p">(</span><span class="n">ServerClass</span> <span class="ow">or</span> <span class="n">AdvancedHTTPServer</span><span class="p">)</span>
 	<span class="n">HandlerClass</span> <span class="o">=</span> <span class="p">(</span><span class="n">HandlerClass</span> <span class="ow">or</span> <span class="n">AdvancedHTTPServerRequestHandler</span><span class="p">)</span>
 
-	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">conflict_handler</span><span class="o">=</span><span class="s">&#39;resolve&#39;</span><span class="p">)</span>
+	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">conflict_handler</span><span class="o">=</span><span class="s">&#39;resolve&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">fromfile_prefix_chars</span><span class="o">=</span><span class="s">&#39;@&#39;</span><span class="p">)</span>
 	<span class="n">parser</span><span class="o">.</span><span class="n">epilog</span> <span class="o">=</span> <span class="s">&#39;When a config file is specified with --config the --ip, --port and --web-root options are all ignored.&#39;</span>
-	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-w&#39;</span><span class="p">,</span> <span class="s">&#39;--web-root&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;web_root&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;path to the web root directory&#39;</span><span class="p">)</span>
-	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-p&#39;</span><span class="p">,</span> <span class="s">&#39;--port&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;port&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;port to serve on&#39;</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-w&#39;</span><span class="p">,</span> <span class="s">&#39;--web-root&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;web_root&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_argp_dir_type</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;path to the web root directory&#39;</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-p&#39;</span><span class="p">,</span> <span class="s">&#39;--port&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;port&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_argp_port_type</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;port to serve on&#39;</span><span class="p">)</span>
 	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-i&#39;</span><span class="p">,</span> <span class="s">&#39;--ip&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;ip&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;the ip address to serve on&#39;</span><span class="p">)</span>
 	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--password&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;password&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;password to use for basic authentication&#39;</span><span class="p">)</span>
 	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--log-file&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;log_file&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;log information to a file&#39;</span><span class="p">)</span>
@@ -418,6 +458,7 @@
 <span class="sd">	in routines executed on the server will raise this error.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">remote_exception</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">AdvancedHTTPServerRPCError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">remote_exception</span> <span class="o">=</span> <span class="n">remote_exception</span>
@@ -433,8 +474,10 @@
 	<span class="nd">@property</span>
 <div class="viewcode-block" id="AdvancedHTTPServerRPCError.is_remote_exception"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRPCError.is_remote_exception">[docs]</a>	<span class="k">def</span> <span class="nf">is_remote_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">		This is true of the represented error resulted from an exception</span>
-<span class="sd">		on the remote server.</span>
+<span class="sd">		This is true if the represented error resulted from an exception on the</span>
+<span class="sd">		remote server.</span>
+
+<span class="sd">		:type: bool</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_exception</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">)</span>
 </div></div>
@@ -486,7 +529,7 @@
 <span class="sd">		:param str serializer_name: The name of the serializer to use.</span>
 <span class="sd">		:param str compression: The name of a compression library to use.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">serializer</span> <span class="o">=</span> <span class="n">AdvancedHTTPServerSerializer</span><span class="p">(</span><span class="n">serializer_name</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">serializer</span> <span class="o">=</span> <span class="n">AdvancedHTTPServerSerializer</span><span class="p">(</span><span class="n">serializer_name</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s">&#39;UTF-8&#39;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;using serializer: &#39;</span> <span class="o">+</span> <span class="n">serializer_name</span><span class="p">)</span>
 </div>
 	<span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -526,7 +569,7 @@
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmac_key</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
 			<span class="n">hmac_calculator</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hmac_key</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">)</span>
 			<span class="n">hmac_calculator</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
-			<span class="n">headers</span><span class="p">[</span><span class="s">&#39;HMAC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hmac_calculator</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+			<span class="n">headers</span><span class="p">[</span><span class="s">&#39;X-RPC-HMAC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hmac_calculator</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
 			<span class="n">headers</span><span class="p">[</span><span class="s">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Basic &#39;</span> <span class="o">+</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">+</span> <span class="s">&#39;:&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;UTF-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
@@ -541,7 +584,7 @@
 
 		<span class="n">resp_data</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hmac_key</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-			<span class="n">hmac_digest</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">getheader</span><span class="p">(</span><span class="s">&#39;hmac&#39;</span><span class="p">)</span>
+			<span class="n">hmac_digest</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">getheader</span><span class="p">(</span><span class="s">&#39;X-RPC-HMAC&#39;</span><span class="p">)</span>
 			<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hmac_digest</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 				<span class="k">raise</span> <span class="n">AdvancedHTTPServerRPCError</span><span class="p">(</span><span class="s">&#39;hmac validation error&#39;</span><span class="p">,</span> <span class="n">resp</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
 			<span class="n">hmac_digest</span> <span class="o">=</span> <span class="n">hmac_digest</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -585,7 +628,7 @@
 		<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;SELECT return_value FROM cache WHERE method = ? AND options_hash = ?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">options_hash</span><span class="p">))</span>
 		<span class="n">return_value</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
 		<span class="k">if</span> <span class="n">return_value</span><span class="p">:</span>
-			<span class="n">return_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_serializer_loads</span><span class="p">(</span><span class="n">return_value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+			<span class="n">return_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_serializer_loads</span><span class="p">(</span><span class="n">return_value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="n">return_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="o">*</span><span class="n">options</span><span class="p">)</span>
 			<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;INSERT INTO cache (method, options_hash, return_value) VALUES (?, ?, ?)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">options_hash</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_serializer_dumps</span><span class="p">(</span><span class="n">return_value</span><span class="p">)))</span>
@@ -648,6 +691,7 @@
 
 	<span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 		<span class="nb">super</span><span class="p">(</span><span class="n">AdvancedHTTPServerNonThreaded</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SHUT_RDWR</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <span class="k">class</span> <span class="nc">AdvancedHTTPServerThreaded</span><span class="p">(</span><span class="n">socketserver</span><span class="o">.</span><span class="n">ThreadingMixIn</span><span class="p">,</span> <span class="n">AdvancedHTTPServerNonThreaded</span><span class="p">):</span>
@@ -682,10 +726,16 @@
 	<span class="p">})</span>
 
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cookies</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">wfile</span> <span class="o">=</span> <span class="bp">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">handler_map</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="sd">&quot;&quot;&quot;The dict object which maps regular expressions of resources to the functions which should handle them.&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">rpc_handler_map</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="sd">&quot;&quot;&quot;The dict object which maps regular expressions of RPC functions to their handlers.&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">headers_active</span> <span class="o">=</span> <span class="bp">False</span>
+		<span class="sd">&quot;&quot;&quot;Whether or not the request is in the sending headers phase.&quot;&quot;&quot;</span>
 		<span class="k">for</span> <span class="n">map_name</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">):</span>
 			<span class="n">handler_map</span> <span class="o">=</span> <span class="n">GLOBAL_HANDLER_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_name</span><span class="p">,</span> <span class="p">{})</span>
 			<span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">function_info</span> <span class="ow">in</span> <span class="n">handler_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -697,6 +747,11 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">install_handlers</span><span class="p">()</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">basic_auth_user</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="sd">&quot;&quot;&quot;The name of the user if the current request is using basic authentication.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">query_data</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="sd">&quot;&quot;&quot;The parameter data that has been passed to the server parsed as a dict.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">raw_query_data</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="sd">&quot;&quot;&quot;The raw data that was parsed into the :py:attr:`.query_data` attribute.&quot;&quot;&quot;</span>
 		<span class="nb">super</span><span class="p">(</span><span class="n">AdvancedHTTPServerRequestHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 	<span class="k">def</span> <span class="nf">version_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -718,6 +773,7 @@
 <span class="sd">		:param str file_path: The path to the file to serve, this does not need to be in the web root.</span>
 <span class="sd">		:param bool attachment: Whether to serve the file as a download by setting the Content-Disposition header.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">del</span> <span class="n">query</span>
 		<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 		<span class="k">try</span><span class="p">:</span>
 			<span class="n">file_obj</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
@@ -744,6 +800,7 @@
 
 <span class="sd">		:param str dir_path: The path of the directory to list the contents of.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">del</span> <span class="n">query</span>
 		<span class="k">try</span><span class="p">:</span>
 			<span class="n">dir_contents</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
 		<span class="k">except</span> <span class="n">os</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
@@ -752,7 +809,7 @@
 		<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">serve_files_root</span><span class="p">:</span>
 			<span class="n">dir_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;..&#39;</span><span class="p">)</span>
 		<span class="n">dir_contents</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-		<span class="n">displaypath</span> <span class="o">=</span> <span class="n">cgi</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">))</span>
+		<span class="n">displaypath</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">quote</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 		<span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
 		<span class="n">encoding</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">getfilesystemencoding</span><span class="p">()</span>
@@ -770,7 +827,7 @@
 			<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">fullname</span><span class="p">):</span>
 				<span class="n">displayname</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot;@&quot;</span>
 				<span class="c"># Note: a link to a directory displays with @ and links with /</span>
-			<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s">&#39;&lt;li&gt;&lt;a href=&quot;&#39;</span> <span class="o">+</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">linkname</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="n">cgi</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">displayname</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;&lt;/a&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">))</span>
+			<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">((</span><span class="s">&#39;&lt;li&gt;&lt;a href=&quot;&#39;</span> <span class="o">+</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">linkname</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;&quot;&gt;&#39;</span> <span class="o">+</span> <span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">displayname</span><span class="p">,</span> <span class="n">quote</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;&lt;/a&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">))</span>
 		<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&lt;/ul&gt;</span><span class="se">\n</span><span class="s">&lt;hr&gt;</span><span class="se">\n</span><span class="s">&lt;/body&gt;</span><span class="se">\n</span><span class="s">&lt;/html&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 		<span class="n">length</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
 		<span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -867,14 +924,14 @@
 		<span class="c"># abandon query parameters</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">original_path</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">posixpath</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_path</span><span class="p">)</span>
+		<span class="n">original_path</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">unquote</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">posixpath</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">original_path</span><span class="p">)</span>
 		<span class="n">words</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
 		<span class="n">words</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
 		<span class="n">tmp_path</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
-			<span class="n">drive</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitdrive</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-			<span class="n">head</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+			<span class="n">_</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitdrive</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+			<span class="n">_</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
 			<span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">curdir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">):</span>
 				<span class="k">continue</span>
 			<span class="n">tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
@@ -895,7 +952,7 @@
 						<span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="o">.</span><span class="n">__name__</span><span class="p">)(</span><span class="n">query</span><span class="p">)</span>
 					<span class="k">else</span><span class="p">:</span>
 						<span class="n">handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
-				<span class="k">except</span><span class="p">:</span>
+				<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
 					<span class="bp">self</span><span class="o">.</span><span class="n">respond_server_error</span><span class="p">()</span>
 				<span class="k">return</span>
 
@@ -909,7 +966,7 @@
 			<span class="bp">self</span><span class="o">.</span><span class="n">respond_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
 			<span class="k">return</span>
 		<span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">R_OK</span><span class="p">):</span>
-			<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">original_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
 				<span class="c"># redirect browser, doing what apache does</span>
 				<span class="n">destination</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span>
 				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
@@ -935,7 +992,7 @@
 		<span class="nb">super</span><span class="p">(</span><span class="n">AdvancedHTTPServerRequestHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">headers_active</span> <span class="o">=</span> <span class="bp">False</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s">&#39;HEAD&#39;</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span> <span class="c"># pylint: disable=access-member-before-definition</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">wfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.guess_mime_type"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.guess_mime_type">[docs]</a>	<span class="k">def</span> <span class="nf">guess_mime_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
@@ -947,7 +1004,7 @@
 <span class="sd">		:return: The guessed MIME type of the default if non are found.</span>
 <span class="sd">		:rtype: str</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="n">base</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">posixpath</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+		<span class="n">_</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">posixpath</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">ext</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extensions_map</span><span class="p">:</span>
 			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">extensions_map</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
 		<span class="n">ext</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -958,18 +1015,22 @@
 </div>
 <div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.stock_handler_respond_unauthorized"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.stock_handler_respond_unauthorized">[docs]</a>	<span class="k">def</span> <span class="nf">stock_handler_respond_unauthorized</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;This method provides a handler suitable to be used in the handler_map.&quot;&quot;&quot;</span>
+		<span class="k">del</span> <span class="n">query</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">respond_unauthorized</span><span class="p">()</span>
 		<span class="k">return</span>
 </div>
 <div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.stock_handler_respond_not_found"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.stock_handler_respond_not_found">[docs]</a>	<span class="k">def</span> <span class="nf">stock_handler_respond_not_found</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;This method provides a handler suitable to be used in the handler_map.&quot;&quot;&quot;</span>
+		<span class="k">del</span> <span class="n">query</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">respond_not_found</span><span class="p">()</span>
 		<span class="k">return</span>
 </div>
 <div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.check_authorization"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.check_authorization">[docs]</a>	<span class="k">def</span> <span class="nf">check_authorization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		Check for the presence of a basic auth Authorization header and</span>
-<span class="sd">		if the credentials contained within are valid.</span>
+<span class="sd">		if the credentials contained within in are valid.</span>
+<span class="sd">		:return: Whether or not the credentials are valid.</span>
+<span class="sd">		:rtype: bool</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">try</span><span class="p">:</span>
 			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">basic_auth</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -978,11 +1039,8 @@
 			<span class="k">if</span> <span class="ow">not</span> <span class="n">auth_info</span><span class="p">:</span>
 				<span class="k">return</span> <span class="bp">False</span>
 			<span class="n">auth_info</span> <span class="o">=</span> <span class="n">auth_info</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">auth_info</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">auth_info</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">auth_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;Basic&#39;</span><span class="p">:</span>
 				<span class="k">return</span> <span class="bp">False</span>
-			<span class="k">if</span> <span class="n">auth_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;Basic&#39;</span><span class="p">:</span>
-				<span class="k">return</span> <span class="bp">False</span>
-
 			<span class="n">auth_info</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">auth_info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">getdefaultencoding</span><span class="p">())</span>
 			<span class="n">username</span> <span class="o">=</span> <span class="n">auth_info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 			<span class="n">password</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">auth_info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
@@ -1005,9 +1063,9 @@
 				<span class="bp">self</span><span class="o">.</span><span class="n">basic_auth_user</span> <span class="o">=</span> <span class="n">username</span>
 				<span class="k">return</span> <span class="bp">True</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;received invalid password from user: &#39;</span> <span class="o">+</span> <span class="n">username</span><span class="p">)</span>
-			<span class="k">return</span> <span class="bp">False</span>
-		<span class="k">except</span><span class="p">:</span>
-			<span class="k">return</span> <span class="bp">False</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+			<span class="k">pass</span>
+		<span class="k">return</span> <span class="bp">False</span>
 </div>
 <div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.cookie_get"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.cookie_get">[docs]</a>	<span class="k">def</span> <span class="nf">cookie_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -1045,9 +1103,7 @@
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">dispatch_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_data</span><span class="p">)</span>
 		<span class="k">return</span>
-
-	<span class="k">def</span> <span class="nf">do_HEAD</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">do_GET</span><span class="p">()</span>
+	<span class="n">do_HEAD</span> <span class="o">=</span> <span class="n">do_GET</span>
 
 	<span class="k">def</span> <span class="nf">do_POST</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_authorization</span><span class="p">():</span>
@@ -1055,25 +1111,27 @@
 			<span class="k">return</span>
 		<span class="n">content_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;content-length&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 		<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">content_length</span><span class="p">)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">query_data_raw</span> <span class="o">=</span> <span class="n">data</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">raw_query_data</span> <span class="o">=</span> <span class="n">data</span>
 		<span class="n">content_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;content-type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
 		<span class="n">content_type</span> <span class="o">=</span> <span class="n">content_type</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">query_data</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="k">try</span><span class="p">:</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+				<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_content_type_charset</span><span class="p">())</span>
 			<span class="k">if</span> <span class="n">content_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;application/json&#39;</span><span class="p">):</span>
 				<span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 				<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-					<span class="bp">self</span><span class="o">.</span><span class="n">query_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">query_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
 			<span class="k">else</span><span class="p">:</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">query_data</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">parse_qs</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-		<span class="k">except</span><span class="p">:</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">respond_server_error</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
 		<span class="k">else</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">dispatch_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_data</span><span class="p">)</span>
 		<span class="k">return</span>
 
 	<span class="k">def</span> <span class="nf">do_OPTIONS</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="n">available_methods</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;do_&#39;</span><span class="p">),</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+		<span class="n">available_methods</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;do_&#39;</span><span class="p">))</span>
 		<span class="k">if</span> <span class="s">&#39;RPC&#39;</span> <span class="ow">in</span> <span class="n">available_methods</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rpc_handler_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 			<span class="n">available_methods</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;RPC&#39;</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
@@ -1098,12 +1156,12 @@
 		<span class="k">try</span><span class="p">:</span>
 			<span class="n">data_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;content-length&#39;</span><span class="p">))</span>
 			<span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">data_length</span><span class="p">)</span>
-		<span class="k">except</span><span class="p">:</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="s">&#39;Invalid Data&#39;</span><span class="p">)</span>
 			<span class="k">return</span>
 
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">rpc_hmac_key</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
-			<span class="n">hmac_digest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hmac&#39;</span><span class="p">)</span>
+			<span class="n">hmac_digest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;X-RPC-HMAC&#39;</span><span class="p">)</span>
 			<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hmac_digest</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
 				<span class="bp">self</span><span class="o">.</span><span class="n">respond_unauthorized</span><span class="p">(</span><span class="n">request_authentication</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 				<span class="k">return</span>
@@ -1123,7 +1181,7 @@
 
 		<span class="k">try</span><span class="p">:</span>
 			<span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-		<span class="k">except</span><span class="p">:</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;serializer failed to load data&#39;</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">send_error</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="s">&#39;Invalid Data&#39;</span><span class="p">)</span>
 			<span class="k">return</span>
@@ -1140,7 +1198,7 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;running RPC method: &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 		<span class="n">response</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;result&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&#39;exception_occurred&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
 		<span class="k">try</span><span class="p">:</span>
-			<span class="n">result</span> <span class="o">=</span> <span class="n">rpc_handler</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">rpc_handler</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="c"># pylint: disable=star-args</span>
 			<span class="n">response</span><span class="p">[</span><span class="s">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
 		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
 			<span class="n">response</span><span class="p">[</span><span class="s">&#39;exception_occurred&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
@@ -1152,7 +1210,7 @@
 
 		<span class="k">try</span><span class="p">:</span>
 			<span class="n">response</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-		<span class="k">except</span><span class="p">:</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">respond_server_error</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s">&#39;Failed To Pack Response&#39;</span><span class="p">)</span>
 			<span class="k">return</span>
 
@@ -1161,7 +1219,7 @@
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">rpc_hmac_key</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
 			<span class="n">hmac_calculator</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">rpc_hmac_key</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">)</span>
 			<span class="n">hmac_calculator</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s">&#39;HMAC&#39;</span><span class="p">,</span> <span class="n">hmac_calculator</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">send_header</span><span class="p">(</span><span class="s">&#39;X-RPC-HMAC&#39;</span><span class="p">,</span> <span class="n">hmac_calculator</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
 
 		<span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
@@ -1172,7 +1230,33 @@
 
 	<span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">address_string</span><span class="p">()</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">format</span> <span class="o">%</span> <span class="n">args</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.get_query"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.get_query">[docs]</a>	<span class="k">def</span> <span class="nf">get_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Get a value from the query data that was sent to the server.</span>
+
+<span class="sd">		:param str name: The name of the query value to retrieve.</span>
+<span class="sd">		:return: The value if it exists, otherwise *default* will be returned.</span>
+<span class="sd">		:rtype: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">default</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 </div>
+<div class="viewcode-block" id="AdvancedHTTPServerRequestHandler.get_content_type_charset"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerRequestHandler.get_content_type_charset">[docs]</a>	<span class="k">def</span> <span class="nf">get_content_type_charset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;UTF-8&#39;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Inspect the Content-Type header to retrieve the charset that the client</span>
+<span class="sd">		has specified.</span>
+
+<span class="sd">		:param str default: The default charset to return if none exists.</span>
+<span class="sd">		:return: The charset of the request.</span>
+<span class="sd">		:rtype: str</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">encoding</span> <span class="o">=</span> <span class="n">default</span>
+		<span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+		<span class="n">idx</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;charset=&#39;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">encoding</span> <span class="o">=</span> <span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">8</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">encoding</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">encoding</span>
+</div></div>
 <div class="viewcode-block" id="AdvancedHTTPServerSerializer"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerSerializer">[docs]</a><span class="k">class</span> <span class="nc">AdvancedHTTPServerSerializer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class represents a serilizer object for use with the RPC system.</span>
@@ -1205,7 +1289,7 @@
 			<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_charset</span><span class="p">)</span>
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compression</span> <span class="o">==</span> <span class="s">&#39;zlib&#39;</span><span class="p">:</span>
 			<span class="n">data</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-		<span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span>
+		<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">data</span>
 </div>
 <div class="viewcode-block" id="AdvancedHTTPServerSerializer.loads"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServerSerializer.loads">[docs]</a>	<span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -1221,7 +1305,7 @@
 			<span class="n">data</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;application/&#39;</span><span class="p">):</span>
 			<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_charset</span><span class="p">)</span>
-		<span class="n">data</span> <span class="o">=</span> <span class="n">SERIALIZER_DRIVERS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s">&#39;loads&#39;</span><span class="p">](</span><span class="n">data</span><span class="p">)</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="n">SERIALIZER_DRIVERS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s">&#39;loads&#39;</span><span class="p">](</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_charset</span> <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="bp">None</span><span class="p">))</span>
 		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
 			<span class="n">data</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 		<span class="k">return</span> <span class="n">data</span>
@@ -1234,7 +1318,7 @@
 <span class="sd">	the port is guessed based on if the server is run as root or not and</span>
 <span class="sd">	SSL is used.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
-<div class="viewcode-block" id="AdvancedHTTPServer.__init__"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServer.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">use_threads</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ssl_certfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ssl_keyfile</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AdvancedHTTPServer.__init__"><a class="viewcode-back" href="../index.html#AdvancedHTTPServer.AdvancedHTTPServer.__init__">[docs]</a>	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">RequestHandler</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">use_threads</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ssl_certfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ssl_keyfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ssl_version</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">		:param RequestHandler: The request handler class to use.</span>
 <span class="sd">		:type RequestHandler: :py:class:`.AdvancedHTTPServerRequestHandler`</span>
@@ -1242,6 +1326,7 @@
 <span class="sd">		:param bool use_threads: Whether to enable the use of a threaded handler.</span>
 <span class="sd">		:param str ssl_certfile: An SSL certificate file to use, setting this enables SSL.</span>
 <span class="sd">		:param str ssl_keyfile: An SSL certificate file to use.</span>
+<span class="sd">		:param ssl_version: The SSL protocol version to use.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">use_ssl</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">ssl_certfile</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">address</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -1269,7 +1354,9 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;listening on &#39;</span> <span class="o">+</span> <span class="n">address</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
 		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_ssl</span><span class="p">:</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">http_server</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">http_server</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">ssl_keyfile</span><span class="p">,</span> <span class="n">certfile</span><span class="o">=</span><span class="n">ssl_certfile</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">ssl_version</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ssl_version</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+				<span class="n">ssl_version</span> <span class="o">=</span> <span class="n">resolve_ssl_protocol_version</span><span class="p">(</span><span class="n">ssl_version</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">http_server</span><span class="o">.</span><span class="n">socket</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">wrap_socket</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">http_server</span><span class="o">.</span><span class="n">socket</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="n">ssl_keyfile</span><span class="p">,</span> <span class="n">certfile</span><span class="o">=</span><span class="n">ssl_certfile</span><span class="p">,</span> <span class="n">server_side</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ssl_version</span><span class="o">=</span><span class="n">ssl_version</span><span class="p">)</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">http_server</span><span class="o">.</span><span class="n">using_ssl</span> <span class="o">=</span> <span class="bp">True</span>
 			<span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">address</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39; - ssl has been enabled&#39;</span><span class="p">)</span>
 
@@ -1424,7 +1511,8 @@
 <span class="sd">		as a hash by specifying the hash type in the *pwtype* argument.</span>
 
 <span class="sd">		:param str username: The username of the credentials to be added.</span>
-<span class="sd">		:param bytes, str password: The password data of the credentials to be added.</span>
+<span class="sd">		:param password: The password data of the credentials to be added.</span>
+<span class="sd">		:type password: bytes, str</span>
 <span class="sd">		:param str pwtype: The type of the *password* data, (plain, md5, sha1, etc.).</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
@@ -1495,6 +1583,7 @@
 		<span class="bp">self</span><span class="o">.</span><span class="n">http_connection</span> <span class="o">=</span> <span class="n">http</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">server_address</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_address</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
 	<span class="k">def</span> <span class="nf">_test_resource_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+		<span class="k">del</span> <span class="n">query</span>
 		<span class="n">handler</span><span class="o">.</span><span class="n">send_response</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
 		<span class="n">handler</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
 		<span class="n">message</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;Hello World!</span><span class="se">\r\n\r\n</span><span class="s">&#39;</span>
@@ -1593,13 +1682,13 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../index.html">AdvancedHTTPServer 0.3 documentation</a> &raquo;</li>
+        <li><a href="../index.html">AdvancedHTTPServer 0.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, Spencer McIntyre.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2013-2015, Spencer McIntyre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

@@ -101,6 +101,8 @@
 
 <span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;0.1&#39;</span>
 
+<span class="n">EMAIL_REGEX</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,6}$&#39;</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+
 <div class="viewcode-block" id="AttributeDict"><a class="viewcode-back" href="../workshop.html#workshop.AttributeDict">[docs]</a><span class="k">class</span> <span class="nc">AttributeDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	This class allows dictionary keys to be accessed as attributes. For</span>
@@ -165,16 +167,25 @@
 <span class="sd">			result will be considered valid for.</span>
 <span class="sd">		:type timeout: int, str</span>
 <span class="sd">		&quot;&quot;&quot;</span>
-		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">)):</span>
-			<span class="n">timeout</span> <span class="o">=</span> <span class="n">timedef_to_seconds</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+			<span class="n">timeout</span> <span class="o">=</span> <span class="n">parse_timespan</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">cache_timeout</span> <span class="o">=</span> <span class="n">timeout</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">__cache</span> <span class="o">=</span> <span class="p">{}</span>
 </div>
-	<span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_target_function&#39;</span><span class="p">):</span>
-			<span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+			<span class="n">target_function</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+			<span class="k">if</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">target_function</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">(</span><span class="n">target_function</span><span class="p">):</span>
+				<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;the cached object must be a function or method&#39;</span><span class="p">)</span>
+			<span class="n">arg_spec</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">target_function</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">arg_spec</span><span class="o">.</span><span class="n">varargs</span> <span class="ow">or</span> <span class="n">arg_spec</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+				<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;the cached function can not use dynamic args or kwargs&#39;</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span> <span class="o">=</span> <span class="n">target_function</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_target_function_arg_spec</span> <span class="o">=</span> <span class="n">arg_spec</span>
 			<span class="k">return</span> <span class="bp">self</span>
+
 		<span class="bp">self</span><span class="o">.</span><span class="n">cache_clean</span><span class="p">()</span>
+		<span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flatten_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Hashable</span><span class="p">):</span>
 			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 		<span class="n">result</span><span class="p">,</span> <span class="n">expiration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
@@ -185,7 +196,33 @@
 		<span class="k">return</span> <span class="n">result</span>
 
 	<span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-		<span class="k">return</span> <span class="s">&quot;&lt;cached function {0}&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+		<span class="k">return</span> <span class="s">&quot;&lt;cached function {0} at 0x{1:x}&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span><span class="p">))</span>
+
+	<span class="k">def</span> <span class="nf">_flatten_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+		<span class="n">flattened_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+		<span class="n">arg_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_function_arg_spec</span>
+
+		<span class="n">arg_spec_defaults</span> <span class="o">=</span> <span class="p">(</span><span class="n">arg_spec</span><span class="o">.</span><span class="n">defaults</span> <span class="ow">or</span> <span class="p">[])</span>
+		<span class="n">default_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">arg_spec</span><span class="o">.</span><span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">arg_spec_defaults</span><span class="p">)])</span>
+		<span class="n">default_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">arg_spec</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">arg_spec_defaults</span><span class="p">):],</span> <span class="n">arg_spec_defaults</span><span class="p">))</span>
+
+		<span class="k">for</span> <span class="n">arg_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg_spec</span><span class="o">.</span><span class="n">args</span><span class="p">)):</span>
+			<span class="n">arg_name</span> <span class="o">=</span> <span class="n">arg_spec</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="n">arg_id</span><span class="p">]</span>
+			<span class="k">if</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">default_args</span><span class="p">:</span>
+				<span class="k">if</span> <span class="ow">not</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+					<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;{0}() missing required argument &#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">arg_name</span><span class="p">))</span>
+				<span class="n">flattened_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">arg_name</span><span class="p">])</span>
+				<span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">flattened_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">arg_name</span><span class="p">,</span> <span class="n">default_kwargs</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]))</span>
+				<span class="k">if</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+					<span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span>
+
+		<span class="n">unexpected_kwargs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unexpected_kwargs</span><span class="p">):</span>
+			<span class="n">unexpected_kwargs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="s">&quot;&#39;{0}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">unexpected_kwargs</span><span class="p">))</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;{0}() got an unexpected keyword argument{1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_target_function</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;&#39;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unexpected_kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s">&#39;s&#39;</span><span class="p">),</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unexpected_kwargs</span><span class="p">)))</span>
+		<span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">flattened_args</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Cache.cache_clean"><a class="viewcode-back" href="../workshop.html#workshop.Cache.cache_clean">[docs]</a>	<span class="k">def</span> <span class="nf">cache_clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="sd">&quot;&quot;&quot;</span>
@@ -265,7 +302,7 @@
 
 	<span class="k">def</span> <span class="nf">_next_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filespath</span><span class="p">):</span>
-			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filespath</span>
+			<span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">filespath</span>
 		<span class="k">raise</span> <span class="ne">StopIteration</span>
 </div>
 <div class="viewcode-block" id="SectionConfigParser"><a class="viewcode-back" href="../workshop.html#workshop.SectionConfigParser">[docs]</a><span class="k">class</span> <span class="nc">SectionConfigParser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -437,6 +474,17 @@
 			<span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">lines</span>
 </div>
+<span class="k">def</span> <span class="nf">is_valid_email_address</span><span class="p">(</span><span class="n">email_address</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Check that the string specified appears to be a valid email address.</span>
+
+<span class="sd">	:param str email_address: The email address to validate.</span>
+<span class="sd">	:return: Whether the email address appears to be valid or not.</span>
+<span class="sd">	:rtype: bool</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = re</span>
+	<span class="k">return</span> <span class="n">EMAIL_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">email_address</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">None</span>
+
 <div class="viewcode-block" id="parse_case_camel_to_snake"><a class="viewcode-back" href="../workshop.html#workshop.parse_case_camel_to_snake">[docs]</a><span class="k">def</span> <span class="nf">parse_case_camel_to_snake</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Convert a string from CamelCase to snake_case.</span>
@@ -563,7 +611,7 @@
 
 <div class="viewcode-block" id="random_string_alphanumeric"><a class="viewcode-back" href="../workshop.html#workshop.random_string_alphanumeric">[docs]</a><span class="k">def</span> <span class="nf">random_string_alphanumeric</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	Generate a random string of *size* length consisting of both letters</span>
+<span class="sd">	Generate a random string of *size* length consisting of mixed case letters</span>
 <span class="sd">	and numbers. This function is not meant for cryptographic purposes.</span>
 
 <span class="sd">	:param int size: The length of the string to return.</span>
@@ -573,6 +621,18 @@
 	<span class="c"># requirements = random, string</span>
 	<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
 </div>
+<span class="k">def</span> <span class="nf">random_string_lower_numeric</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Generate a random string of *size* length consisting of lowercase letters</span>
+<span class="sd">	and numbers. This function is not meant for cryptographic purposes.</span>
+
+<span class="sd">	:param int size: The length of the string to return.</span>
+<span class="sd">	:return: A string consisting of random characters.</span>
+<span class="sd">	:rtype: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c"># requirements = random, string</span>
+	<span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+
 <div class="viewcode-block" id="selection_collision"><a class="viewcode-back" href="../workshop.html#workshop.selection_collision">[docs]</a><span class="k">def</span> <span class="nf">selection_collision</span><span class="p">(</span><span class="n">selections</span><span class="p">,</span> <span class="n">poolsize</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	Calculate the probability that two random values selected from an arbitrary</span>
@@ -708,7 +768,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, Spencer McIntyre.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

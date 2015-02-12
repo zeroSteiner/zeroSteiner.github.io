@@ -111,12 +111,13 @@
 </div>
 <span class="k">class</span> <span class="nc">JobRun</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">(</span><span class="n">JobRun</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">False</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">callback_args</span> <span class="o">=</span> <span class="n">args</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">request_delete</span> <span class="o">=</span> <span class="bp">False</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="bp">None</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">reaped</span> <span class="o">=</span> <span class="bp">False</span>
-		<span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 	<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="k">try</span><span class="p">:</span>
@@ -147,6 +148,7 @@
 <span class="sd">		:param bool use_utc: Whether or not to use UTC time internally.</span>
 <span class="sd">		&quot;&quot;&quot;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span> <span class="o">=</span> <span class="p">{}</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_running</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_thread_shutdown</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
@@ -412,7 +414,7 @@
 		<span class="n">job_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
 		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_job_lock</span><span class="p">:</span>
 			<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
-			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_is_running</span><span class="p">(</span><span class="n">job_id</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">wait</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_is_running</span><span class="p">(</span><span class="n">job_id</span><span class="p">):</span>
 				<span class="n">job_desc</span><span class="p">[</span><span class="s">&#39;job&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 			<span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jobs</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span>
 </div>
@@ -495,7 +497,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, Spencer McIntyre.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>
