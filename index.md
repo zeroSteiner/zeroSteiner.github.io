@@ -6,4 +6,4 @@ zeroSteiner / Spencer McIntyre
 Contact Information:
 
 *  Twitter @zeroSteiner [gimmick:TwitterFollow](@zeroSteiner)
-*  [PGP Key (4096R/A5E15412)](https://gist.githubusercontent.com/zeroSteiner/b32f86a76d701af42dbd/raw/14ddd3cc98ea22401a8de328f368e3e1531aeea8/zerosteiner.txt)
+*  [PGP Key (4096R/A5E15412)](https://keybase.io/zerosteiner)
