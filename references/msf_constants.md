@@ -1,49 +1,375 @@
-# Metasploit Constants
+## Metasploit Payloads Grouped & Sorted By Length
 
-## Exploit Check Codes
+Generated: Wed Mar  4 11:32:01 EST 2015 [Latest Commit](https://github.com/rapid7/metasploit-framework/commit/80b76436bb676e5d94312c9e46d0df0be138101d)
 
-[Source File](https://github.com/rapid7/metasploit-framework/blob/master/lib/msf/core/exploit.rb)
-
-| Constant Name          | Constant Description                                       |
-|:-----------------------|:-----------------------------------------------------------|
-| CheckCode::Unknown     | Cannot reliably check exploitability.                      |
-| CheckCode::Safe        | The target is not exploitable.                             |
-| CheckCode::Detected    | The target service is running, but could not be validated. |
-| CheckCode::Appears     | The target appears to be vulnerable.                       |
-| CheckCode::Vulnerable  | The target is vulnerable.                                  |
-| CheckCode::Unsupported | This module does not support check.                        |
-
-## Exploit Module Rankings
-
-[Source File](https://github.com/rapid7/metasploit-framework/blob/master/lib/msf/core/constants.rb)
-[More Details](https://github.com/rapid7/metasploit-framework/wiki/Exploit-Ranking)
-
-| Constant Name    | Constant Description |
-|:-----------------|:---------------------|
-| ExcellentRanking | The exploit will never crash the service. This is the case for SQL Injection, CMD execution, RFI, LFI, etc. No typical memory corruption exploits should be given this ranking unless there are extraordinary circumstances (WMF Escape()). |
-| GreatRanking     | The exploit has a default target AND either auto-detects the appropriate target or uses an application-specific return address AFTER a version check. |
-| GoodRanking      | The exploit has a default target and it is the "common case" for this type of software (English, Windows XP for a desktop app, 2003 for server, etc). |
-| NormalRanking    | The exploit is otherwise reliable, but depends on a specific version and can't (or doesn't) reliably autodetect. |
-| AverageRanking   | The exploit is generally unreliable or difficult to exploit. |
-| LowRanking       | The exploit is nearly impossible to exploit (or under 50%) for common platforms. |
-| ManualRanking    | The exploit is unstable or difficult to exploit and is basically a DoS. This ranking is also used when the module has no use unless specifically configured by the user (e.g.: php_eval). |
-
-## Module Failure Statuses
-
-[Source File](https://github.com/rapid7/metasploit-framework/blob/master/lib/msf/core/module.rb)
-
-| Constant Name            | Constant Description                                                   |
-|:-------------------------|:-----------------------------------------------------------------------|
-| Failure::BadConfig       | The exploit settings were incorrect                                    |
-| Failure::Disconnected    | The network service disconnected us mid-attempt                        |
-| Failure::NoAccess        | The application replied indication we do not have access               |
-| Failure::None            | No confidence in success or failure                                    |
-| Failure::NoTarget        | The target is not compatible with this exploit or settings             |
-| Failure::NotFound        | The application endpoint or specific service was not found             |
-| Failure::NotVulnerable   | The application response indicated it was not vulnerable               |
-| Failure::PayloadFailed   | The payload was delivered but no session was opened (AV, network, etc) |
-| Failure::TimeoutExpired  | The exploit triggered some form of timeout                             |
-| Failure::UnexpectedReply | The application replied in an unexpected fashion                       |
-| Failure::Unknown         | No confidence in success or failure                                    |
-| Failure::Unreachable     | The network service was unreachable (connection refused, etc)          |
-| Failure::UserInterrupt   | The exploit was interrupted by the user                                |
+|  Payload Name  | Size |
+|:---------------|:----:|
+| **AIX PAYLOADS** |
+|  aix/ppc/shell_interact     |  56   |
+|  aix/ppc/shell_reverse_tcp  |  204  |
+|  aix/ppc/shell_find_port    |  220  |
+|  aix/ppc/shell_bind_tcp     |  264  |
+| **ANDROID PAYLOADS** |
+|  android/meterpreter/reverse_tcp    |  7506  |
+|  android/shell/reverse_tcp          |  7508  |
+|  android/meterpreter/reverse_https  |  7514  |
+|  android/shell/reverse_https        |  7515  |
+|  android/meterpreter/reverse_http   |  7518  |
+|  android/shell/reverse_http         |  7518  |
+| **BSD PAYLOADS** |
+|  bsd/x86/shell/find_tag          |  40   |
+|  bsd/x86/shell/reverse_tcp       |  43   |
+|  bsd/x86/shell/bind_tcp          |  54   |
+|  bsd/x86/shell/bind_ipv6_tcp     |  63   |
+|  bsd/x86/metsvc_bind_tcp         |  65   |
+|  bsd/x86/metsvc_reverse_tcp      |  65   |
+|  bsd/x86/shell/reverse_ipv6_tcp  |  81   |
+|  bsd/x86/exec                    |  107  |
+|  bsd/x86/shell_find_port         |  125  |
+|  bsd/sparc/shell_reverse_tcp     |  128  |
+|  bsd/x86/shell_reverse_tcp       |  129  |
+|  bsd/x86/shell_find_tag          |  135  |
+|  bsd/x86/shell_bind_tcp          |  138  |
+|  bsd/x86/shell_bind_tcp_ipv6     |  152  |
+|  bsd/x86/shell_reverse_tcp_ipv6  |  161  |
+|  bsd/sparc/shell_bind_tcp        |  164  |
+| **BSDI PAYLOADS** |
+|  bsdi/x86/shell/reverse_tcp  |  59  |
+|  bsdi/x86/shell/bind_tcp     |  69  |
+|  bsdi/x86/shell_find_port    |  77  |
+|  bsdi/x86/shell_reverse_tcp  |  77  |
+|  bsdi/x86/shell_bind_tcp     |  90  |
+| **CMD PAYLOADS** |
+|  cmd/unix/reverse_netcat_gaping      |  20    |
+|  cmd/unix/bind_netcat_gaping         |  24    |
+|  cmd/unix/bind_netcat_gaping_ipv6    |  25    |
+|  cmd/unix/reverse_bash               |  49    |
+|  cmd/unix/reverse_netcat             |  92    |
+|  cmd/unix/reverse_awk                |  95    |
+|  cmd/unix/reverse_zsh                |  95    |
+|  cmd/unix/bind_awk                   |  96    |
+|  cmd/unix/reverse                    |  100   |
+|  cmd/unix/bind_netcat                |  106   |
+|  cmd/unix/reverse_ssl_double_telnet  |  106   |
+|  cmd/windows/reverse_ruby            |  111   |
+|  cmd/unix/bind_zsh                   |  112   |
+|  cmd/unix/reverse_bash_telnet_ssl    |  116   |
+|  cmd/unix/reverse_php_ssl            |  117   |
+|  cmd/unix/reverse_ruby               |  118   |
+|  cmd/windows/bind_ruby               |  128   |
+|  cmd/unix/reverse_perl_ssl           |  129   |
+|  cmd/windows/reverse_perl            |  133   |
+|  cmd/unix/bind_ruby                  |  137   |
+|  cmd/windows/bind_perl               |  139   |
+|  cmd/windows/bind_perl_ipv6          |  140   |
+|  cmd/unix/bind_ruby_ipv6             |  142   |
+|  cmd/unix/bind_perl_ipv6             |  152   |
+|  cmd/unix/reverse_openssl            |  152   |
+|  cmd/unix/reverse_ruby_ssl           |  170   |
+|  cmd/unix/reverse_lua                |  209   |
+|  cmd/windows/reverse_lua             |  209   |
+|  cmd/windows/download_eval_vbs       |  211   |
+|  cmd/unix/reverse_perl               |  219   |
+|  cmd/unix/bind_lua                   |  223   |
+|  cmd/windows/bind_lua                |  223   |
+|  cmd/unix/bind_perl                  |  240   |
+|  cmd/windows/adduser                 |  258   |
+|  cmd/windows/download_exec_vbs       |  324   |
+|  cmd/unix/bind_inetd                 |  487   |
+|  cmd/unix/reverse_python_ssl         |  567   |
+|  cmd/unix/reverse_python             |  581   |
+|  cmd/windows/reverse_powershell      |  1189  |
+|  cmd/unix/bind_nodejs                |  1843  |
+|  cmd/unix/reverse_nodejs             |  1911  |
+| **DATA PAYLOADS** |
+| **FIREFOX PAYLOADS** |
+|  firefox/shell_reverse_tcp  |  7377  |
+|  firefox/shell_bind_tcp     |  7529  |
+|  firefox/exec               |  7587  |
+| **GENERIC PAYLOADS** |
+|  generic/debug_trap  |  1  |
+|  generic/tight_loop  |  2  |
+| **JAVA PAYLOADS** |
+|  java/jsp_shell_bind_tcp         |  1593  |
+|  java/meterpreter/bind_tcp       |  5487  |
+|  java/meterpreter/reverse_tcp    |  5487  |
+|  java/shell/bind_tcp             |  5487  |
+|  java/shell/reverse_tcp          |  5487  |
+|  java/meterpreter/reverse_http   |  5500  |
+|  java/meterpreter/reverse_https  |  6308  |
+|  java/shell_reverse_tcp          |  7748  |
+| **LINUX PAYLOADS** |
+|  linux/armle/exec                        |  22   |
+|  linux/mipsbe/reboot                     |  32   |
+|  linux/mipsle/reboot                     |  32   |
+|  linux/mipsbe/exec                       |  48   |
+|  linux/mipsle/exec                       |  48   |
+|  linux/x64/shell_find_port               |  91   |
+|  linux/x86/shell_reverse_tcp2            |  103  |
+|  linux/armle/adduser                     |  119  |
+|  linux/x86/metsvc_bind_tcp               |  122  |
+|  linux/x86/metsvc_reverse_tcp            |  122  |
+|  linux/x86/chmod                         |  158  |
+|  linux/x86/exec                          |  158  |
+|  linux/x86/meterpreter/find_tag          |  159  |
+|  linux/x86/shell/find_tag                |  159  |
+|  linux/ppc64/shell_find_port             |  171  |
+|  linux/ppc/shell_find_port               |  171  |
+|  linux/armle/shell_reverse_tcp           |  172  |
+|  linux/x86/meterpreter/reverse_nonx_tcp  |  172  |
+|  linux/x86/shell/reverse_nonx_tcp        |  172  |
+|  linux/x86/shell_bind_tcp_random_port    |  179  |
+|  linux/ppc64/shell_reverse_tcp           |  183  |
+|  linux/ppc/shell_reverse_tcp             |  183  |
+|  linux/x86/read_file                     |  184  |
+|  linux/x86/shell_find_port               |  184  |
+|  linux/x86/meterpreter/bind_nonx_tcp     |  185  |
+|  linux/x86/shell/bind_nonx_tcp           |  185  |
+|  linux/x86/shell_reverse_tcp             |  190  |
+|  linux/x86/shell_find_tag                |  191  |
+|  linux/x86/meterpreter/reverse_tcp       |  193  |
+|  linux/x86/shell/reverse_tcp             |  193  |
+|  linux/x86/meterpreter/reverse_ipv6_tcp  |  199  |
+|  linux/x86/shell/reverse_ipv6_tcp        |  199  |
+|  linux/armle/shell/reverse_tcp           |  200  |
+|  linux/x86/shell_bind_tcp                |  200  |
+|  linux/x86/meterpreter/bind_tcp          |  201  |
+|  linux/x86/shell/bind_tcp                |  201  |
+|  linux/x86/meterpreter/bind_ipv6_tcp     |  207  |
+|  linux/x86/shell/bind_ipv6_tcp           |  207  |
+|  linux/armle/shell_bind_tcp              |  208  |
+|  linux/x64/exec                          |  209  |
+|  linux/mipsbe/shell/reverse_tcp          |  212  |
+|  linux/mipsle/shell/reverse_tcp          |  212  |
+|  linux/x86/shell_bind_ipv6_tcp           |  212  |
+|  linux/x86/adduser                       |  219  |
+|  linux/ppc64/shell_bind_tcp              |  223  |
+|  linux/ppc/shell_bind_tcp                |  223  |
+|  linux/x64/shell_bind_tcp_random_port    |  226  |
+|  linux/armle/shell/bind_tcp              |  232  |
+|  linux/mipsbe/shell_bind_tcp             |  232  |
+|  linux/mipsle/shell_bind_tcp             |  232  |
+|  linux/x64/shell/reverse_tcp             |  237  |
+|  linux/x64/shell_reverse_tcp             |  243  |
+|  linux/x64/shell/bind_tcp                |  247  |
+|  linux/x64/shell_bind_tcp                |  255  |
+| **NETWARE PAYLOADS** |
+|  netware/shell/reverse_tcp  |  279  |
+| **NODEJS PAYLOADS** |
+|  nodejs/shell_bind_tcp         |  456  |
+|  nodejs/shell_reverse_tcp      |  473  |
+|  nodejs/shell_reverse_tcp_ssl  |  501  |
+| **OSX PAYLOADS** |
+|  osx/armle/vibrate                 |  16   |
+|  osx/x64/exec                      |  23   |
+|  osx/x64/say                       |  53   |
+|  osx/ppc/shell/find_tag            |  76   |
+|  osx/x86/exec                      |  81   |
+|  osx/ppc/shell/reverse_tcp         |  100  |
+|  osx/x64/shell_find_tag            |  107  |
+|  osx/x64/shell_reverse_tcp         |  108  |
+|  osx/x86/bundleinject/reverse_tcp  |  123  |
+|  osx/x86/isight/reverse_tcp        |  123  |
+|  osx/x86/vforkshell/reverse_tcp    |  123  |
+|  osx/x86/shell_find_port           |  126  |
+|  osx/x86/shell_reverse_tcp         |  130  |
+|  osx/x64/shell_bind_tcp            |  136  |
+|  osx/x86/shell_bind_tcp            |  139  |
+|  osx/x86/bundleinject/bind_tcp     |  144  |
+|  osx/x86/isight/bind_tcp           |  144  |
+|  osx/x86/vforkshell/bind_tcp       |  144  |
+|  osx/armle/shell_reverse_tcp       |  152  |
+|  osx/ppc/shell/bind_tcp            |  152  |
+|  osx/x64/dupandexecve/reverse_tcp  |  154  |
+|  osx/ppc/shell_reverse_tcp         |  164  |
+|  osx/armle/execute/reverse_tcp     |  184  |
+|  osx/armle/shell/reverse_tcp       |  184  |
+|  osx/x64/dupandexecve/bind_tcp     |  185  |
+|  osx/x86/vforkshell_reverse_tcp    |  196  |
+|  osx/armle/shell_bind_tcp          |  200  |
+|  osx/x86/vforkshell_bind_tcp       |  217  |
+|  osx/ppc/shell_bind_tcp            |  224  |
+|  osx/armle/execute/bind_tcp        |  248  |
+|  osx/armle/shell/bind_tcp          |  248  |
+| **PHP PAYLOADS** |
+|  php/bind_perl                  |  230    |
+|  php/bind_perl_ipv6             |  230    |
+|  php/meterpreter/reverse_tcp    |  1303   |
+|  php/meterpreter/bind_tcp_ipv6  |  1350   |
+|  php/exec                       |  1389   |
+|  php/meterpreter/bind_tcp       |  1418   |
+|  php/reverse_perl               |  1898   |
+|  php/shell_findsock             |  2170   |
+|  php/bind_php                   |  2394   |
+|  php/bind_php_ipv6              |  2455   |
+|  php/download_exec              |  2542   |
+|  php/reverse_php                |  2975   |
+|  php/meterpreter_reverse_tcp    |  24643  |
+| **PYTHON PAYLOADS** |
+|  python/meterpreter/reverse_tcp    |  342  |
+|  python/meterpreter/bind_tcp       |  374  |
+|  python/shell_reverse_tcp          |  381  |
+|  python/meterpreter/reverse_http   |  442  |
+|  python/meterpreter/reverse_https  |  442  |
+|  python/shell_reverse_tcp_ssl      |  537  |
+| **RUBY PAYLOADS** |
+|  ruby/shell_reverse_tcp_ssl  |  424  |
+|  ruby/shell_reverse_tcp      |  496  |
+|  ruby/shell_bind_tcp         |  516  |
+|  ruby/shell_bind_tcp_ipv6    |  524  |
+| **SOLARIS PAYLOADS** |
+|  solaris/sparc/shell_find_port    |  136  |
+|  solaris/sparc/shell_reverse_tcp  |  144  |
+|  solaris/x86/shell_find_port      |  151  |
+|  solaris/x86/shell_reverse_tcp    |  156  |
+|  solaris/x86/shell_bind_tcp       |  160  |
+|  solaris/sparc/shell_bind_tcp     |  180  |
+| **TTY PAYLOADS** |
+| **WINDOWS PAYLOADS** |
+|  windows/dllinject/find_tag                          |  92   |
+|  windows/meterpreter/find_tag                        |  92   |
+|  windows/patchupdllinject/find_tag                   |  92   |
+|  windows/patchupmeterpreter/find_tag                 |  92   |
+|  windows/shell/find_tag                              |  92   |
+|  windows/upexec/find_tag                             |  92   |
+|  windows/vncinject/find_tag                          |  92   |
+|  windows/dllinject/reverse_ord_tcp                   |  93   |
+|  windows/meterpreter/reverse_ord_tcp                 |  93   |
+|  windows/patchupdllinject/reverse_ord_tcp            |  93   |
+|  windows/patchupmeterpreter/reverse_ord_tcp          |  93   |
+|  windows/shell/reverse_ord_tcp                       |  93   |
+|  windows/upexec/reverse_ord_tcp                      |  93   |
+|  windows/vncinject/reverse_ord_tcp                   |  93   |
+|  windows/dllinject/reverse_nonx_tcp                  |  177  |
+|  windows/meterpreter/reverse_nonx_tcp                |  177  |
+|  windows/patchupdllinject/reverse_nonx_tcp           |  177  |
+|  windows/patchupmeterpreter/reverse_nonx_tcp         |  177  |
+|  windows/shell/reverse_nonx_tcp                      |  177  |
+|  windows/upexec/reverse_nonx_tcp                     |  177  |
+|  windows/vncinject/reverse_nonx_tcp                  |  177  |
+|  windows/loadlibrary                                 |  183  |
+|  windows/exec                                        |  185  |
+|  windows/dllinject/bind_nonx_tcp                     |  201  |
+|  windows/meterpreter/bind_nonx_tcp                   |  201  |
+|  windows/patchupdllinject/bind_nonx_tcp              |  201  |
+|  windows/patchupmeterpreter/bind_nonx_tcp            |  201  |
+|  windows/shell/bind_nonx_tcp                         |  201  |
+|  windows/upexec/bind_nonx_tcp                        |  201  |
+|  windows/vncinject/bind_nonx_tcp                     |  201  |
+|  windows/speak_pwned                                 |  247  |
+|  windows/x64/loadlibrary                             |  267  |
+|  windows/x64/exec                                    |  268  |
+|  windows/messagebox                                  |  272  |
+|  windows/dns_txt_query_exec                          |  275  |
+|  windows/dllinject/reverse_tcp                       |  281  |
+|  windows/meterpreter/reverse_tcp                     |  281  |
+|  windows/patchupdllinject/reverse_tcp                |  281  |
+|  windows/patchupmeterpreter/reverse_tcp              |  281  |
+|  windows/shell/reverse_tcp                           |  281  |
+|  windows/upexec/reverse_tcp                          |  281  |
+|  windows/vncinject/reverse_tcp                       |  281  |
+|  windows/dllinject/reverse_tcp_allports              |  282  |
+|  windows/meterpreter/reverse_tcp_allports            |  282  |
+|  windows/patchupdllinject/reverse_tcp_allports       |  282  |
+|  windows/patchupmeterpreter/reverse_tcp_allports     |  282  |
+|  windows/shell/reverse_tcp_allports                  |  282  |
+|  windows/upexec/reverse_tcp_allports                 |  282  |
+|  windows/vncinject/reverse_tcp_allports              |  282  |
+|  windows/dllinject/bind_ipv6_tcp                     |  285  |
+|  windows/dllinject/bind_tcp                          |  285  |
+|  windows/meterpreter/bind_ipv6_tcp                   |  285  |
+|  windows/meterpreter/bind_tcp                        |  285  |
+|  windows/patchupdllinject/bind_ipv6_tcp              |  285  |
+|  windows/patchupdllinject/bind_tcp                   |  285  |
+|  windows/patchupmeterpreter/bind_ipv6_tcp            |  285  |
+|  windows/patchupmeterpreter/bind_tcp                 |  285  |
+|  windows/shell/bind_ipv6_tcp                         |  285  |
+|  windows/shell/bind_tcp                              |  285  |
+|  windows/upexec/bind_ipv6_tcp                        |  285  |
+|  windows/upexec/bind_tcp                             |  285  |
+|  windows/vncinject/bind_ipv6_tcp                     |  285  |
+|  windows/vncinject/bind_tcp                          |  285  |
+|  windows/dllinject/reverse_ipv6_tcp                  |  289  |
+|  windows/meterpreter/reverse_ipv6_tcp                |  289  |
+|  windows/patchupdllinject/reverse_ipv6_tcp           |  289  |
+|  windows/patchupmeterpreter/reverse_ipv6_tcp         |  289  |
+|  windows/shell/reverse_ipv6_tcp                      |  289  |
+|  windows/upexec/reverse_ipv6_tcp                     |  289  |
+|  windows/vncinject/reverse_ipv6_tcp                  |  289  |
+|  windows/dllinject/reverse_http                      |  321  |
+|  windows/meterpreter/reverse_http                    |  321  |
+|  windows/shell/reverse_http                          |  321  |
+|  windows/upexec/reverse_http                         |  321  |
+|  windows/vncinject/reverse_http                      |  321  |
+|  windows/shell_reverse_tcp                           |  324  |
+|  windows/meterpreter/reverse_https                   |  327  |
+|  windows/shell_bind_tcp                              |  328  |
+|  windows/dllinject/bind_hidden_tcp                   |  343  |
+|  windows/meterpreter/bind_hidden_tcp                 |  343  |
+|  windows/patchupdllinject/bind_hidden_tcp            |  343  |
+|  windows/patchupmeterpreter/bind_hidden_tcp          |  343  |
+|  windows/shell/bind_hidden_tcp                       |  343  |
+|  windows/upexec/bind_hidden_tcp                      |  343  |
+|  windows/vncinject/bind_hidden_tcp                   |  343  |
+|  windows/dllinject/reverse_hop_http                  |  353  |
+|  windows/meterpreter/reverse_hop_http                |  353  |
+|  windows/shell/reverse_hop_http                      |  353  |
+|  windows/upexec/reverse_hop_http                     |  353  |
+|  windows/vncinject/reverse_hop_http                  |  353  |
+|  windows/dllinject/reverse_tcp_dns                   |  356  |
+|  windows/meterpreter/reverse_tcp_dns                 |  356  |
+|  windows/patchupdllinject/reverse_tcp_dns            |  356  |
+|  windows/patchupmeterpreter/reverse_tcp_dns          |  356  |
+|  windows/shell/reverse_tcp_dns                       |  356  |
+|  windows/upexec/reverse_tcp_dns                      |  356  |
+|  windows/vncinject/reverse_tcp_dns                   |  356  |
+|  windows/dllinject/bind_hidden_ipknock_tcp           |  359  |
+|  windows/meterpreter/bind_hidden_ipknock_tcp         |  359  |
+|  windows/patchupdllinject/bind_hidden_ipknock_tcp    |  359  |
+|  windows/patchupmeterpreter/bind_hidden_ipknock_tcp  |  359  |
+|  windows/shell/bind_hidden_ipknock_tcp               |  359  |
+|  windows/upexec/bind_hidden_ipknock_tcp              |  359  |
+|  windows/vncinject/bind_hidden_ipknock_tcp           |  359  |
+|  windows/shell_hidden_bind_tcp                       |  386  |
+|  windows/meterpreter/reverse_https_proxy             |  391  |
+|  windows/format_all_drives                           |  393  |
+|  windows/dllinject/reverse_tcp_rc4                   |  394  |
+|  windows/meterpreter/reverse_tcp_rc4                 |  394  |
+|  windows/patchupdllinject/reverse_tcp_rc4            |  394  |
+|  windows/patchupmeterpreter/reverse_tcp_rc4          |  394  |
+|  windows/shell/reverse_tcp_rc4                       |  394  |
+|  windows/upexec/reverse_tcp_rc4                      |  394  |
+|  windows/vncinject/reverse_tcp_rc4                   |  394  |
+|  windows/dllinject/bind_tcp_rc4                      |  398  |
+|  windows/meterpreter/bind_tcp_rc4                    |  398  |
+|  windows/patchupdllinject/bind_tcp_rc4               |  398  |
+|  windows/patchupmeterpreter/bind_tcp_rc4             |  398  |
+|  windows/shell/bind_tcp_rc4                          |  398  |
+|  windows/upexec/bind_tcp_rc4                         |  398  |
+|  windows/vncinject/bind_tcp_rc4                      |  398  |
+|  windows/x64/meterpreter/reverse_tcp                 |  422  |
+|  windows/x64/shell/reverse_tcp                       |  422  |
+|  windows/x64/vncinject/reverse_tcp                   |  422  |
+|  windows/download_exec                               |  439  |
+|  windows/adduser                                     |  443  |
+|  windows/x64/shell_reverse_tcp                       |  460  |
+|  windows/x64/meterpreter/bind_tcp                    |  467  |
+|  windows/x64/shell/bind_tcp                          |  467  |
+|  windows/x64/vncinject/bind_tcp                      |  467  |
+|  windows/dllinject/reverse_tcp_rc4_dns               |  469  |
+|  windows/meterpreter/reverse_tcp_rc4_dns             |  469  |
+|  windows/patchupdllinject/reverse_tcp_rc4_dns        |  469  |
+|  windows/patchupmeterpreter/reverse_tcp_rc4_dns      |  469  |
+|  windows/shell/reverse_tcp_rc4_dns                   |  469  |
+|  windows/upexec/reverse_tcp_rc4_dns                  |  469  |
+|  windows/vncinject/reverse_tcp_rc4_dns               |  469  |
+|  windows/x64/shell_bind_tcp                          |  505  |
+|  windows/shell_bind_tcp_xpfw                         |  529  |
+|  windows/x64/meterpreter/reverse_https               |  578  |
+|  windows/x64/shell/reverse_https                     |  578  |
+|  windows/x64/vncinject/reverse_https                 |  578  |
+|  windows/dllinject/reverse_http_proxy_pstore         |  650  |
+|  windows/meterpreter/reverse_http_proxy_pstore       |  650  |
+|  windows/shell/reverse_http_proxy_pstore             |  650  |
+|  windows/upexec/reverse_http_proxy_pstore            |  650  |
+|  windows/vncinject/reverse_http_proxy_pstore         |  650  |

@@ -1,6 +1,20 @@
+# Biography
+As a member of the Research and Development team at SecureState, Spencer
+McIntyre works to discover vulnerabilities within organizations systems and
+understand underlying risks. Mr. McIntyre balances his focus between
+vulnerability and in-house tool development. During his time with SecureState,
+Mr. McIntyre has worked with a variety of clients across multiple industries,
+giving him experience in how each secures their data and the threats that they
+encounter. Mr. McIntyre uses his background in software development to help him
+to understand and exploit the underlying logic in the software he encounters. He
+is active in the open source community, making multiple contributions to a
+variety of projects such as the Metasploit Framework and Scapy.
+
 # Speaking Engagements
 | Conference         | Year |
 |--------------------|------|
+| B-Sides Cleveland  | 2015 |
+| B-Sides Cleveland  | 2014 |
 | DerbyCon           | 2013 |
 | ToorCon San Diego  | 2012 |
 | B-Sides Las Vegas  | 2012 |
@@ -9,6 +23,10 @@
 | B-Sides Pittsburgh | 2011 |
 | THOTCON            | 2011 |
 | Black Hat Europe   | 2011 |
+
+# Employment
+* 2008-2010 University of Advancing Technology, Security Administrator
+* 2010-Present SecureState Consulting, Penetration Tester / Research & Development
 
 # Education and Training
 * 2008-2010 Bachelor of Science in Software Engineering from the University of Advancing Technology Arizona
