@@ -1,4 +1,4 @@
-[gimmick:theme](cyborg)
+[gimmick:theme](flatly)
 
 # zeroSteiner
 
@@ -12,7 +12,8 @@
   * [Mayhem](https://github.com/zeroSteiner/mayhem/)
   * [Termineter](https://github.com/securestate/termineter/)
   -----
-  * [Project Documentation](docs/index.md)
+  * [Gist Home](https://gist.github.com/zeroSteiner)
+  * [GitHub Home](https://github.com/zeroSteiner)
 
 [References]()
 
