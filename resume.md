@@ -13,6 +13,9 @@ variety of projects such as the Metasploit Framework.
 # Speaking Engagements
 | Conference         | Year |
 |--------------------|------|
+| DerbyCon           | 2016 |
+| B-Sides Las Vegas  | 2016 |
+| B-Sides Cleveland  | 2016 |
 | DerbyCon           | 2015 |
 | B-Sides Cleveland  | 2015 |
 | B-Sides Cleveland  | 2014 |
